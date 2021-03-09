@@ -27,6 +27,7 @@ public class MachinegunBullet : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("MachineGunLimit"))
