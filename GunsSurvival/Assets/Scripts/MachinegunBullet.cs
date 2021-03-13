@@ -5,9 +5,10 @@ using UnityEngine;
 public class MachinegunBullet : MonoBehaviour
 {
     //Machine Gun bullet
-    public GameObject Limit;
     public float speed;
-    
+
+    public int damage = 10;
+
     Rigidbody2D rb2d;
     void Start()
     {
@@ -30,7 +31,7 @@ public class MachinegunBullet : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("MachineGunLimit"))
+        if (collision.CompareTag("bulletLimit"))
         {
             Destroy(gameObject);
         }

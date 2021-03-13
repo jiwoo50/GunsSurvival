@@ -34,49 +34,43 @@ public class WeaponController : MonoBehaviour
             StartCoroutine(SwitchDelay(cnt));
             shootFlag = true;
         }
+
         if (Input.GetKey(KeyCode.X))
         {
             if (shootingWeapon[(int)kindOfWeapons.isMachine] && shootFlag)
             {
-                StartCoroutine(MachineGun());
+                InvokeRepeating("MachineGun", 0, machineGunDelay);
             }
             if (shootingWeapon[(int)kindOfWeapons.isShot] && shootFlag)
             {
-                StartCoroutine(ShotGun());
+                InvokeRepeating("ShotGun", 0, shotGunDelay);
             }
             if (shootingWeapon[(int)kindOfWeapons.isBazooka] && shootFlag)
             {
-                StartCoroutine(Bazooka());
+                InvokeRepeating("Bazooka", 0, bazookaDelay);
             }
             shootFlag = false;
         }
-    }
-
-    IEnumerator MachineGun()
-    {
-        while (true)
+        else
         {
-            Instantiate(projectile[(int)kindOfWeapons.isMachine], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
-            yield return new WaitForSeconds(machineGunDelay);
+            CancelInvoke("MachineGun");
+            CancelInvoke("ShotGun");
+            CancelInvoke("Bazooka");
+            shootFlag = true;
         }
-    }
+    } 
 
-    IEnumerator ShotGun()
+    void MachineGun()
     {
-        while (true)
-        {
-            Instantiate(projectile[(int)kindOfWeapons.isShot], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
-            yield return new WaitForSeconds(shotGunDelay);
-        } 
+        Instantiate(projectile[(int)kindOfWeapons.isMachine], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
     }
-
-    IEnumerator Bazooka()
+    void ShotGun()
     {
-        while (true)
-        {
-            Instantiate(projectile[(int)kindOfWeapons.isBazooka], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
-            yield return new WaitForSeconds(bazookaDelay);
-        }
+        Instantiate(projectile[(int)kindOfWeapons.isShot], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
+    }
+    void Bazooka()
+    {
+        Instantiate(projectile[(int)kindOfWeapons.isBazooka], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
     }
 
     void InitializeWeapon()

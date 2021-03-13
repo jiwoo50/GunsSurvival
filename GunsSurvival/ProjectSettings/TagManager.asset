@@ -8,6 +8,7 @@ TagManager:
   - Shot Gun
   - Bazooka
   - Boundary
+  - bulletLimit
   layers:
   - Default
   - TransparentFX

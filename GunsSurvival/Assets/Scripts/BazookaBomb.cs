@@ -5,7 +5,7 @@ using UnityEngine;
 public class BazookaBomb : MonoBehaviour
 {
     //Bazooka bomb
-    public float speed;
+    public float speed; 
 
     Rigidbody2D rb2d;
     void Start()

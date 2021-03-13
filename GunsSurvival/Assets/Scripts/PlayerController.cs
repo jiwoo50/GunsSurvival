@@ -12,7 +12,7 @@ public class Boundary
 public class PlayerController : MonoBehaviour
 {
     public float speed; 
-    public Rigidbody2D rb2d = null;
+    public Rigidbody2D rb2d;
     public Boundary boundary;
 
     float horizontal, vertical;
