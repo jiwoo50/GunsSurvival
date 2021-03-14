@@ -9,10 +9,12 @@ public class TrackingEnemyMove : MonoBehaviour
 
     Rigidbody2D rigidbody2D;
     float searchTime = 0.7f;
+
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
+
     void Update()
     {
         if (searchTime <= 0.0f)
@@ -29,11 +31,13 @@ public class TrackingEnemyMove : MonoBehaviour
             Rush();
         }
     }
+
     void Rush()
     {
         rigidbody2D.velocity = Vector3.zero;
         Vector3 dir = player.transform.position - transform.position;
         dir.Normalize();
         rigidbody2D.AddForce(dir * movePower, ForceMode2D.Impulse);
+
     }
 }

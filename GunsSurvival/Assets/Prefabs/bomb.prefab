@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7353192160294655577}
   m_Layer: 0
   m_Name: bomb
-  m_TagString: Untagged
+  m_TagString: bazookaBomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

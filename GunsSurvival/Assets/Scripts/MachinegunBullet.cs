@@ -7,7 +7,7 @@ public class MachinegunBullet : MonoBehaviour
     //Machine Gun bullet
     public float speed;
 
-    public int damage = 10;
+    public static int bulletDamage = 10;
 
     Rigidbody2D rb2d;
     void Start()

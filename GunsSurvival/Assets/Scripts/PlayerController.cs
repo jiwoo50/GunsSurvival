@@ -12,18 +12,18 @@ public class Boundary
 public class PlayerController : MonoBehaviour
 {
     public float speed; 
-    public Rigidbody2D rb2d;
+   
     public Boundary boundary;
 
     float horizontal, vertical;
 
-    // Start is called before the first frame update
+    Rigidbody2D rb2d;
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontal = Input.GetAxis("Horizontal");

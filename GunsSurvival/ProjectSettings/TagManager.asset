@@ -9,6 +9,10 @@ TagManager:
   - Bazooka
   - Boundary
   - bulletLimit
+  - machineGunBullet
+  - shotGunBullet
+  - bazookaBomb
+  - Splash
   layers:
   - Default
   - TransparentFX

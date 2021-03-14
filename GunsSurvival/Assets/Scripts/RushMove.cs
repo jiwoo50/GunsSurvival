@@ -5,10 +5,11 @@ using UnityEngine;
 public class RushMove : MonoBehaviour
 {
     public GameObject player;
-    public float movePower=5.0f;
+    public float movePower = 5.0f;
 
     Rigidbody2D rigidbody2D;
     bool isRush = true;
+
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
