@@ -68,7 +68,7 @@ public class WeaponController : MonoBehaviour
     }
     void ShotGun()
     {
-        Instantiate(projectile[(int)kindOfWeapons.isShot], bulletSpawn.transform.position, Quaternion.identity);
+        //Instantiate(projectile[(int)kindOfWeapons.isShot], bulletSpawn.transform.position, Quaternion.identity);
     }
     void Bazooka()
     {

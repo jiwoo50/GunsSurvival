@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2832960306738731767}
   - component: {fileID: 2832960306738731764}
   - component: {fileID: 2832960306738731765}
-  - component: {fileID: 8679984346636181387}
+  - component: {fileID: -4956931602689179968}
   m_Layer: 0
   m_Name: ShotGunBullet
   m_TagString: shotGunBullet
@@ -134,7 +134,7 @@ EdgeCollider2D:
   - {x: 0.04390943, y: 0.04176874}
   - {x: 0.027768731, y: -0.066562176}
   - {x: 0.0017908216, y: -0.20651129}
---- !u!114 &8679984346636181387
+--- !u!114 &-4956931602689179968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
