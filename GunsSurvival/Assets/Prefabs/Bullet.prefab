@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2832960306738731767}
   - component: {fileID: 2832960306738731764}
   - component: {fileID: 2832960306738731765}
-  - component: {fileID: 8895706291126240959}
+  - component: {fileID: 9133507585787553093}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: machineGunBullet
@@ -134,7 +134,7 @@ EdgeCollider2D:
   - {x: 0.04390943, y: 0.04176874}
   - {x: 0.027768731, y: -0.066562176}
   - {x: 0.0017908216, y: -0.20651129}
---- !u!114 &8895706291126240959
+--- !u!114 &9133507585787553093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,4 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6d111ce83848943a460e79adab45e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 3817744440613917084, guid: 49a3c56f8150f6b42a232b27a53cd61d, type: 3}
   speed: 10
+  limit: 2.8

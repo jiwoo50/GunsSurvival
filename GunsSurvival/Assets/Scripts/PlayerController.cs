@@ -11,9 +11,13 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed; 
+    public static int currentHealth;
+
+    public float speed;
+    public float timeInvincible = 2.0f;
    
     public Boundary boundary;
+    public GameObject explosionPrefab;
 
     float horizontal, vertical;
 

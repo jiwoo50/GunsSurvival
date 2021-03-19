@@ -8,7 +8,7 @@ public class BazookaBomb : MonoBehaviour
     public float speed;
 
     public static int bombDamage = 20;
-    public static int splash = 5;
+    public static int splashDamage = 5;
 
     Rigidbody2D rb2d;
 

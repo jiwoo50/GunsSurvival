@@ -7,6 +7,7 @@ public class WeaponController : MonoBehaviour
 
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
     public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
+    public GameObject bulletSpawn;
 
     float machineGunDelay = 0.5f;
     float shotGunDelay = 1.0f;
@@ -58,19 +59,20 @@ public class WeaponController : MonoBehaviour
             CancelInvoke("Bazooka");
             shootFlag = true;
         }
+        
     } 
 
     void MachineGun()
     {
-        Instantiate(projectile[(int)kindOfWeapons.isMachine], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
+        Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, Quaternion.identity);
     }
     void ShotGun()
     {
-        Instantiate(projectile[(int)kindOfWeapons.isShot], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
+        Instantiate(projectile[(int)kindOfWeapons.isShot], bulletSpawn.transform.position, Quaternion.identity);
     }
     void Bazooka()
     {
-        Instantiate(projectile[(int)kindOfWeapons.isBazooka], new Vector2(transform.position.x, transform.position.y) + Vector2.up * 0.5f, Quaternion.identity);
+        Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, Quaternion.identity);
     }
 
     void InitializeWeapon()
