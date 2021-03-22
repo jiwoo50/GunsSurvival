@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour
     float horizontal, vertical;
 
     Rigidbody2D rb2d;
-
+    //Vector2 mouse;
+    float angle;
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -32,11 +33,15 @@ public class PlayerController : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+        Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        angle = Mathf.Atan2(mouse.y - gameObject.transform.position.y, mouse.x - gameObject.transform.position.x) * Mathf.Rad2Deg;
+        gameObject.transform.rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
     }
 
     void FixedUpdate()
     {
         Vector2 position = rb2d.position;
+        Vector3 rotation = gameObject.transform.rotation.eulerAngles;
         position.x += speed * horizontal * Time.deltaTime;
         position.y += speed * vertical * Time.deltaTime;
 

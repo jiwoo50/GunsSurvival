@@ -310,7 +310,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &952257315
@@ -871,6 +871,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 162083151}
     m_Modifications:
+    - target: {fileID: 1103159346866566386, guid: 5389864e8fbc1214282bba9b0ba35dd3,
+        type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1103159346866566387, guid: 5389864e8fbc1214282bba9b0ba35dd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1067,12 +1072,12 @@ PrefabInstance:
     - target: {fileID: 3817744440613917090, guid: 49a3c56f8150f6b42a232b27a53cd61d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 3817744440613917090, guid: 49a3c56f8150f6b42a232b27a53cd61d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 3817744440613917090, guid: 49a3c56f8150f6b42a232b27a53cd61d,
         type: 3}
@@ -1092,7 +1097,7 @@ PrefabInstance:
     - target: {fileID: 3817744440613917090, guid: 49a3c56f8150f6b42a232b27a53cd61d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49a3c56f8150f6b42a232b27a53cd61d, type: 3}

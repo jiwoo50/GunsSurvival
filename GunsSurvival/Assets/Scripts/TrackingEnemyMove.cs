@@ -20,7 +20,7 @@ public class TrackingEnemyMove : MonoBehaviour
         if (searchTime <= 0.0f)
         {
             Rush();
-            searchTime = 0.7f;
+            searchTime = 0.5f;
         }
         if (searchTime > 0.0f)
         {

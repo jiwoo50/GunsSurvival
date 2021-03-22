@@ -11,7 +11,7 @@ public class ShotgunBullet : MonoBehaviour
 
     public float bulletSpeed;
     public int numOfBullets;
-
+    Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
     void Start()
     {
 
@@ -20,7 +20,11 @@ public class ShotgunBullet : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
+            float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z+90);
+            float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z+90);
             Shot();
+            bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x *cos-bulletSpawn.transform.position.y*sin;
+            bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
         }
     }
     void Shot()
@@ -28,7 +32,7 @@ public class ShotgunBullet : MonoBehaviour
         for (int i = 0; i < numOfBullets; i++)
         {
             //총알 토큰 생성
-            GameObject tempBullet = (GameObject)Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+            GameObject tempBullet = (GameObject)Instantiate(bullet, bulletSpawn_ShiftToAngle, player.transform.rotation);
             //총알에 물리 부여
             Rigidbody2D tempBulletRB = tempBullet.GetComponent<Rigidbody2D>();
             float spreadAngle = -10 + 20 * i / numOfBullets;//총알의 각도
