@@ -24,7 +24,7 @@ public class EnemyHP : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("machineGunBullet"))
-        {
+        { 
             HP -= MachinegunBullet.bulletDamage;
         }
         else if (collision.CompareTag("bazookaBomb"))

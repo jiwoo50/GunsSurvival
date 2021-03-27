@@ -27,7 +27,7 @@ public class WeaponController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && !isSwitching)
+        if (Input.GetKeyDown(KeyCode.Space) && !isSwitching)
         {
             ++cnt;
             if (cnt >= guns.Length) cnt = 0;

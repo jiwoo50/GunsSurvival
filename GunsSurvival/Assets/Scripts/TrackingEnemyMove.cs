@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class TrackingEnemyMove : MonoBehaviour
 {
+    public static int Tracking_damage = 10;
     public GameObject player;
     public float movePower = 5.0f;
 
-    Rigidbody2D rigidbody2D;
+    Rigidbody2D rb2d;
     float searchTime = 0.7f;
 
     void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -34,10 +35,12 @@ public class TrackingEnemyMove : MonoBehaviour
 
     void Rush()
     {
-        rigidbody2D.velocity = Vector3.zero;
-        Vector3 dir = player.transform.position - transform.position;
-        dir.Normalize();
-        rigidbody2D.AddForce(dir * movePower, ForceMode2D.Impulse);
-
+        if (!PlayerController.isdead)
+        {
+            rb2d.velocity = Vector3.zero;
+            Vector3 dir = player.transform.position - transform.position;
+            dir.Normalize();
+            rb2d.AddForce(dir * movePower, ForceMode2D.Impulse);
+        }
     }
 }

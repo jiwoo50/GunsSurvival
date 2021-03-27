@@ -147,5 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 3817744440613917084, guid: 49a3c56f8150f6b42a232b27a53cd61d, type: 3}
+  obj1: {fileID: 7793568757767941562, guid: bd08e85cef3d25d4f8eaf8deff8ec3f2, type: 3}
+  obj2: {fileID: 5463822111911337582, guid: bd680c13d8b50c74c9b42ffdfca22af8, type: 3}
   speed: 10
-  limit: 2.8

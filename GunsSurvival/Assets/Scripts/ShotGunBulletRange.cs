@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShotGunBulletRange : MonoBehaviour
 {
-
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("bulletLimit"))

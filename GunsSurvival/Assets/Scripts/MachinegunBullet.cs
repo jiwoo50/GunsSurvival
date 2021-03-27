@@ -5,9 +5,9 @@ using UnityEngine;
 public class MachinegunBullet : MonoBehaviour
 {
     //Machine Gun bullet
-    public float speed;
-
     public static int bulletDamage = 10;
+
+    public float speed;
 
     Rigidbody2D rb2d;
     void Start()

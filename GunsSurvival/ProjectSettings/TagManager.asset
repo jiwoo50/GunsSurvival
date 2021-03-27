@@ -13,6 +13,8 @@ TagManager:
   - shotGunBullet
   - bazookaBomb
   - Splash
+  - Tracking
+  - Rush
   layers:
   - Default
   - TransparentFX
