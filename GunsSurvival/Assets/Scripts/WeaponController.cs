@@ -64,7 +64,7 @@ public class WeaponController : MonoBehaviour
 
     void MachineGun()
     {
-        Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, Quaternion.identity);
+        Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
     }
     void ShotGun()
     {
@@ -72,7 +72,7 @@ public class WeaponController : MonoBehaviour
     }
     void Bazooka()
     {
-        Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, Quaternion.identity);
+        Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
     }
 
     void InitializeWeapon()

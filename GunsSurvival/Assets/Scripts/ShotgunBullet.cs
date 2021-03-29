@@ -32,7 +32,7 @@ public class ShotgunBullet : MonoBehaviour
         for (int i = 0; i < numOfBullets; i++)
         {
             //총알 토큰 생성
-            GameObject tempBullet = (GameObject)Instantiate(bullet, bulletSpawn_ShiftToAngle, player.transform.rotation);
+            GameObject tempBullet = (GameObject)Instantiate(bullet, bulletSpawn_ShiftToAngle, bulletSpawn.transform.rotation);
             //총알에 물리 부여
             Rigidbody2D tempBulletRB = tempBullet.GetComponent<Rigidbody2D>();
             float spreadAngle = -10 + 20 * i / numOfBullets;//총알의 각도

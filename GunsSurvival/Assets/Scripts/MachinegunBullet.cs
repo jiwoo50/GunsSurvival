@@ -13,16 +13,17 @@ public class MachinegunBullet : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-    }
 
-    void FixedUpdate()
+        rb2d.AddForce(this.gameObject.transform.up * speed,ForceMode2D.Impulse);
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Vector2 position = rb2d.position;
-        position.y += speed * Time.deltaTime;
-
-        rb2d.MovePosition(position);
+        if (collision.CompareTag("Boundary"))
+        {
+            Destroy(gameObject);
+        }
     }
-
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("bulletLimit"))

@@ -15,12 +15,14 @@ public class BazookaBomb : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        rb2d.AddForce(this.gameObject.transform.up * speed,ForceMode2D.Impulse);
     }
-    void FixedUpdate()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        Vector2 position = rb2d.position;
-        position.y += speed * Time.deltaTime;
-        rb2d.MovePosition(position);
+        if (collision.CompareTag("Boundary"))
+        {
+            Destroy(gameObject);
+        }
     }
     void OnBecameInvisible()
     {
