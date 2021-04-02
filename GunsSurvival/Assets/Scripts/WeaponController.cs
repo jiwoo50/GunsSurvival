@@ -5,12 +5,15 @@ public class WeaponController : MonoBehaviour
 {
     enum kindOfWeapons { isMachine = 0, isShot, isBazooka }
 
+    public static bool shotGun = false;
+
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
     public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
     public GameObject bulletSpawn;
 
+    public float flyingTime = 0.35f;
+
     float machineGunDelay = 0.5f;
-    float shotGunDelay = 1.0f;
     float bazookaDelay = 1.5f;
     float changeDelay = 0.5f;
 
@@ -24,7 +27,6 @@ public class WeaponController : MonoBehaviour
     {
         InitializeWeapon();
     }
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isSwitching)
@@ -36,15 +38,14 @@ public class WeaponController : MonoBehaviour
             shootFlag = true;
         }
 
-        if (Input.GetKey(KeyCode.X))
+        if (shootingWeapon[(int)kindOfWeapons.isShot]) shotGun = true; //used in ShotgunBullet.cs
+        else shotGun = false; 
+
+        if (Input.GetMouseButton(0))
         {
             if (shootingWeapon[(int)kindOfWeapons.isMachine] && shootFlag)
             {
                 InvokeRepeating("MachineGun", 0, machineGunDelay);
-            }
-            if (shootingWeapon[(int)kindOfWeapons.isShot] && shootFlag)
-            {
-                InvokeRepeating("ShotGun", 0, shotGunDelay);
             }
             if (shootingWeapon[(int)kindOfWeapons.isBazooka] && shootFlag)
             {
@@ -55,26 +56,19 @@ public class WeaponController : MonoBehaviour
         else
         {
             CancelInvoke("MachineGun");
-            CancelInvoke("ShotGun");
             CancelInvoke("Bazooka");
             shootFlag = true;
         }
-        
     } 
-
     void MachineGun()
     {
-        Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-    }
-    void ShotGun()
-    {
-        //Instantiate(projectile[(int)kindOfWeapons.isShot], bulletSpawn.transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
+        Destroy(bullet, flyingTime); //bullet flies during flyingTime
     }
     void Bazooka()
     {
         Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
     }
-
     void InitializeWeapon()
     {
         for (int i = 0; i < guns.Length; i++)
@@ -84,7 +78,6 @@ public class WeaponController : MonoBehaviour
         guns[(int)kindOfWeapons.isMachine].SetActive(true);
         shootingWeapon[(int)kindOfWeapons.isMachine] = true;
     }
-
     IEnumerator SwitchDelay(int idx)
     {
         isSwitching = true;
@@ -92,7 +85,6 @@ public class WeaponController : MonoBehaviour
         yield return new WaitForSeconds(changeDelay);
         isSwitching = false;
     }
-
     void SwitchWeapon(int idx)
     {
         for (int i = 0; i < guns.Length; i++)

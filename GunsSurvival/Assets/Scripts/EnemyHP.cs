@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyHP : MonoBehaviour
 {
-    public int HP;
     public GameObject splashPrefab;
     public GameObject flamePrefab;
     public GameObject boomPrefab;
+    public int HP;
 
     GameObject splash;
     

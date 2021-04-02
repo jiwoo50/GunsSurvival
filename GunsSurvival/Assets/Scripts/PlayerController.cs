@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         rb2d.MovePosition(position);
     }
 
-    void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision) // item -> call OnTriggerEnter2D 
     {
         if (collision.gameObject.CompareTag("Rush"))
         {

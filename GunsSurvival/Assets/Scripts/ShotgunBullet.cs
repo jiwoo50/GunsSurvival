@@ -10,21 +10,32 @@ public class ShotgunBullet : MonoBehaviour
     public GameObject player;
 
     public float bulletSpeed;
-    public int numOfBullets;
-    Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
-    void Start()
-    {
+    public float shootDelay = 1.0f;
 
-    }
+    public int numOfBullets;
+
+    bool shootFlag = true;
+
+    Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetMouseButton(0))
         {
-            float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z+90);
-            float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z+90);
-            Shot();
-            bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x *cos-bulletSpawn.transform.position.y*sin;
-            bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
+            if (WeaponController.shotGun && shootFlag)
+            {
+                float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z + 90);
+                float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z + 90);
+                InvokeRepeating("Shot", 0, shootDelay);
+                bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x * cos - bulletSpawn.transform.position.y * sin;
+                bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
+                shootFlag = false;
+            }
+        }
+        else
+        {
+            CancelInvoke("Shot");
+            shootFlag = true;
         }
     }
     void Shot()
