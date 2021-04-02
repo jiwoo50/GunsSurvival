@@ -311,7 +311,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &952257315
@@ -512,7 +512,7 @@ MonoBehaviour:
   player: {fileID: 25849195}
   bulletSpeed: 7
   shootDelay: 1
-  numOfBullets: 5
+  numOfBullets: 4
 --- !u!1 &1343971655
 GameObject:
   m_ObjectHideFlags: 0
