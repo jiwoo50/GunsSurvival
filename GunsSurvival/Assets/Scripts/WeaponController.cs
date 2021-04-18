@@ -11,8 +11,6 @@ public class WeaponController : MonoBehaviour
     public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
     public GameObject bulletSpawn;
 
-    public float flyingTime = 0.35f;
-
     float machineGunDelay = 0.5f;
     float bazookaDelay = 1.5f;
     float changeDelay = 0.5f;
@@ -63,7 +61,6 @@ public class WeaponController : MonoBehaviour
     void MachineGun()
     {
         GameObject bullet = Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
-        Destroy(bullet, flyingTime); //bullet flies during flyingTime
     }
     void Bazooka()
     {

@@ -6,6 +6,7 @@ public class MachinegunBullet : MonoBehaviour
 {
     //Machine Gun bullet
     public static int bulletDamage = 10;
+    public float flyingTime = 0.35f;
 
     public GameObject player;
 
@@ -16,6 +17,11 @@ public class MachinegunBullet : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.AddForce(this.gameObject.transform.up * speed, ForceMode2D.Impulse);
+    }
+
+    void Update()
+    {
+        Destroy(this.gameObject, flyingTime); //bullet flies during flyingTime
     }
 
     void OnTriggerEnter2D(Collider2D collision)
