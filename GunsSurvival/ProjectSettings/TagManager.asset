@@ -15,6 +15,7 @@ TagManager:
   - Splash
   - Tracking
   - Rush
+  - HealthPotion
   layers:
   - Default
   - TransparentFX

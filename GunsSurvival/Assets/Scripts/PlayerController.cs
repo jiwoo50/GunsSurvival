@@ -71,7 +71,12 @@ public class PlayerController : MonoBehaviour
             ChangeHealth(-TrackingEnemyMove.Tracking_damage);
         }
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((collision.gameObject.CompareTag("HealthPotion"))){
+            ChangeHealth(1);//아이템 추가시 변경
+        }
+    }
     void ChangeHealth(int amount) 
     {
         if (amount < 0)

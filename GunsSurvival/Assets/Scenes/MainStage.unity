@@ -189,7 +189,6 @@ MonoBehaviour:
   - {fileID: 2832960306738731760, guid: 6a944270b2604e94fbb1af29bbdca441, type: 3}
   - {fileID: 1225993479617970072, guid: 6a4aa72489ea8184d890f9a21d5b1706, type: 3}
   bulletSpawn: {fileID: 1038944530}
-  flyingTime: 0.35
 --- !u!1 &481775249
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,6 +424,8 @@ MonoBehaviour:
     type: 3}
   boomPrefab: {fileID: 2918271166182000362, guid: 76da42c5101e8144fb3af4056c6bcead,
     type: 3}
+  items: []
+  percentage: []
   HP: 5
 --- !u!1 &1136549497
 GameObject:
@@ -663,6 +664,8 @@ MonoBehaviour:
     type: 3}
   boomPrefab: {fileID: 2918271166182000362, guid: 76da42c5101e8144fb3af4056c6bcead,
     type: 3}
+  items: []
+  percentage: []
   HP: 15
 --- !u!50 &1480680442
 Rigidbody2D:
