@@ -11,8 +11,6 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour
 {
-    public static bool isdead = false;
-
     public Boundary boundary;
     public GameObject explosionPrefab;
 
@@ -91,9 +89,7 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            isdead = true;
-            GameObject explosion = Instantiate(explosionPrefab, rb2d.position, Quaternion.identity) as GameObject;
-            Destroy(explosion, 0.8f);
+            GameController.Instance.PlayerDead();
             Destroy(gameObject);
         }
     }

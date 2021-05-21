@@ -18,6 +18,8 @@ public class RushMove : MonoBehaviour
     }
     void Update()
     {
+        if (GameController.Instance.gameOver) Destroy(gameObject);
+
         Rush();
         if (Mathf.Abs(transform.position.y) >= 4.89f || Mathf.Abs(transform.position.x) >= 2.95f)
         {
@@ -28,11 +30,11 @@ public class RushMove : MonoBehaviour
     }
     void Rush()
     {
-        if (isRush && !PlayerController.isdead)
+        if (isRush && !GameController.Instance.gameOver)
         {
             Vector3 dir = player.transform.position - transform.position;
             dir.Normalize();
-            rb2d.AddForce(dir*movePower, ForceMode2D.Impulse);
+            rb2d.AddForce(dir * movePower, ForceMode2D.Impulse);
             isRush = false;
         }
     }

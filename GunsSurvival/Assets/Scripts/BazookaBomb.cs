@@ -19,6 +19,8 @@ public class BazookaBomb : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if(GameController.Instance.gameOver) Destroy(gameObject);
+
         if (collision.CompareTag("Boundary"))
         {
             Destroy(gameObject);

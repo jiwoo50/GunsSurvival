@@ -18,6 +18,8 @@ public class TrackingEnemyMove : MonoBehaviour
 
     void Update()
     {
+        if(GameController.Instance.gameOver) Destroy(gameObject);
+
         if (searchTime <= 0.0f)
         {
             Rush();
@@ -35,12 +37,10 @@ public class TrackingEnemyMove : MonoBehaviour
 
     void Rush()
     {
-        if (!PlayerController.isdead)
-        {
-            rb2d.velocity = Vector3.zero;
-            Vector3 dir = player.transform.position - transform.position;
-            dir.Normalize();
-            rb2d.AddForce(dir * movePower, ForceMode2D.Impulse);
-        }
+        rb2d.velocity = Vector3.zero;
+        Vector3 dir = player.transform.position - transform.position;
+        dir.Normalize();
+        rb2d.AddForce(dir * movePower, ForceMode2D.Impulse);
+
     }
 }

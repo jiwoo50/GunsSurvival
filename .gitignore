@@ -37,6 +37,7 @@ ExportedObj/
 .consulo/
 *.csproj
 *.unityproj
+*.pyproj
 *.sln
 *.suo
 *.tmp
