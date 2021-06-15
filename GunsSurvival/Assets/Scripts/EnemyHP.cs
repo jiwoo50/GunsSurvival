@@ -24,7 +24,6 @@ public class EnemyHP : MonoBehaviour
             //GameObject projectileObject = Instantiate(items[(int)ChooseItem()], this.gameObject.transform.position, Quaternion.identity);
         }
     }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("machineGunBullet"))
@@ -53,6 +52,7 @@ public class EnemyHP : MonoBehaviour
         Destroy(flame, 0.8f);
 
     }
+
     // float ChooseItem()
     // {
     //     float total = 0;

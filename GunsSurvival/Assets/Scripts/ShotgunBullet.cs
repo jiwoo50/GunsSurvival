@@ -15,28 +15,25 @@ public class ShotgunBullet : MonoBehaviour
 
     public int numOfBullets;
 
-    bool shootFlag = true;
-
     Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
 
     void Update()
     {
+        FireShotgun();
+    }
+
+    void FireShotgun()
+    {
         if (Input.GetMouseButton(0))
         {
-            if (WeaponController.shotGun && shootFlag)
+            if (WeaponController.shotGun)
             {
                 float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z + 90);
                 float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z + 90);
-                InvokeRepeating("Shot", 0, shootDelay);
+                StartCoroutine(Fire());
                 bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x * cos - bulletSpawn.transform.position.y * sin;
                 bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
-                shootFlag = false;
             }
-        }
-        else
-        {
-            CancelInvoke("Shot");
-            shootFlag = true;
         }
     }
     void Shot()
@@ -54,6 +51,17 @@ public class ShotgunBullet : MonoBehaviour
             Vector2 MovementDirection = new Vector2(Mathf.Cos(rotateAngle * Mathf.Deg2Rad), Mathf.Sin(rotateAngle * Mathf.Deg2Rad)).normalized;
             tempBulletRB.AddForce(MovementDirection * bulletSpeed, ForceMode2D.Impulse);
             Destroy(tempBullet, 5.0f);
+        }
+    }
+
+    IEnumerator Fire()
+    {
+        if (!WeaponController.shotgunFire)
+        {
+            WeaponController.shotgunFire = true;
+            Shot();
+            yield return new WaitForSeconds(shootDelay);
+            WeaponController.shotgunFire = false;
         }
     }
 }

@@ -81,8 +81,6 @@ public class PlayerController : MonoBehaviour
         {
             if (isInvincible) return;
             StartCoroutine(OnDamage());
-
-            isInvincible = true;
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
@@ -97,6 +95,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator OnDamage()
     {
         int cnt = 0;
+        isInvincible = true;
         while (cnt < 4)
         {
             render.material.color = new Color(255, 255, 255, 0);

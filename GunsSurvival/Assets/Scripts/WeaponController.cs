@@ -6,19 +6,21 @@ public class WeaponController : MonoBehaviour
     enum kindOfWeapons { isMachine = 0, isShot, isBazooka }
 
     public static bool shotGun = false;
+    public static bool shotgunFire = false;
 
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
     public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
     public GameObject bulletSpawn;
 
     float machineGunDelay = 0.5f;
+    bool machineFire = false;
     float bazookaDelay = 1.5f;
+    bool bazookaFire = false;
     float changeDelay = 0.5f;
 
     int cnt = 0;
 
     bool[] shootingWeapon = { false, false, false };
-    bool shootFlag = true;
     bool isSwitching = false;
 
     void Start()
@@ -33,34 +35,24 @@ public class WeaponController : MonoBehaviour
             if (cnt >= guns.Length) cnt = 0;
             StopAllCoroutines();
             StartCoroutine(SwitchDelay(cnt));
-            shootFlag = true;
+            machineFire = false;
+            bazookaFire = false;
+            shotgunFire = false;
         }
-
-        if (shootingWeapon[(int)kindOfWeapons.isShot]) shotGun = true; //used in ShotgunBullet.cs
-        else shotGun = false; 
-
+        shotGun = shootingWeapon[(int)kindOfWeapons.isShot];
+        Fire();
+    }
+    void Fire()
+    {
         if (Input.GetMouseButton(0))
         {
-            if (shootingWeapon[(int)kindOfWeapons.isMachine] && shootFlag)
-            {
-                InvokeRepeating("MachineGun", 0, machineGunDelay);
-            }
-            if (shootingWeapon[(int)kindOfWeapons.isBazooka] && shootFlag)
-            {
-                InvokeRepeating("Bazooka", 0, bazookaDelay);
-            }
-            shootFlag = false;
+            if (shootingWeapon[(int)kindOfWeapons.isMachine]) StartCoroutine(FireBullet());
+            if (shootingWeapon[(int)kindOfWeapons.isBazooka]) StartCoroutine(FireBomb());
         }
-        else
-        {
-            CancelInvoke("MachineGun");
-            CancelInvoke("Bazooka");
-            shootFlag = true;
-        }
-    } 
+    }
     void MachineGun()
     {
-        GameObject bullet = Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
+        Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
     }
     void Bazooka()
     {
@@ -91,5 +83,27 @@ public class WeaponController : MonoBehaviour
         }
         guns[idx].SetActive(true);
         shootingWeapon[idx] = true;
+    }
+
+    IEnumerator FireBullet()
+    {
+        if (!machineFire)
+        {
+            machineFire = true;
+            MachineGun();
+            yield return new WaitForSeconds(machineGunDelay);
+            machineFire = false;
+        }
+    }
+
+    IEnumerator FireBomb()
+    {
+        if (!bazookaFire)
+        {
+            bazookaFire = true;
+            Bazooka();
+            yield return new WaitForSeconds(bazookaDelay);
+            bazookaFire = false;
+        }
     }
 }
