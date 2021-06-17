@@ -47,6 +47,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        MoveNRotate();
+    }
+
+    void MoveNRotate()
+    {
         Vector2 position = rb2d.position;
         Vector3 rotation = gameObject.transform.rotation.eulerAngles;
         position.x += speed * horizontal * Time.deltaTime;
@@ -69,13 +74,14 @@ public class PlayerController : MonoBehaviour
             ChangeHealth(-TrackingEnemyMove.Tracking_damage);
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.gameObject.CompareTag("HealthPotion"))){
+        if ((collision.gameObject.CompareTag("HealthPotion")))
+        {
             ChangeHealth(1);//아이템 추가시 변경
         }
     }
-    void ChangeHealth(int amount) 
+    void ChangeHealth(int amount)
     {
         if (amount < 0)
         {

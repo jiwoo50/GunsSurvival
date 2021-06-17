@@ -7,12 +7,15 @@ public class EnemyHP : MonoBehaviour
     public GameObject splashPrefab;
     public GameObject flamePrefab;
     public GameObject boomPrefab;
+
     //public GameObject[] items;
     //public float[] percentage;
 
     public int HP;
 
-    GameObject splash;
+    float splashRadius = 1.0f;
+
+    bool splash = false;
 
     void Update()
     {
@@ -23,34 +26,44 @@ public class EnemyHP : MonoBehaviour
             Destroy(boom, 1.0f);
             //GameObject projectileObject = Instantiate(items[(int)ChooseItem()], this.gameObject.transform.position, Quaternion.identity);
         }
+        if (splash)
+        {
+            Collider2D[] hitobj = Physics2D.OverlapCircleAll(transform.position, splashRadius);
+            foreach (Collider2D hit in hitobj)
+            {
+                if (hit.gameObject.tag == "Rush" || hit.gameObject.tag == "Tracking")
+                {
+                    hit.gameObject.GetComponent<EnemyHP>().Damage(BazookaBomb.splashDamage);
+                    splash = false;
+                }
+            }
+        }
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("machineGunBullet"))
         {
-            HP -= MachinegunBullet.bulletDamage;
+            Damage(MachinegunBullet.bulletDamage);
         }
         else if (collision.CompareTag("bazookaBomb"))
         {
-            HP -= BazookaBomb.bombDamage;
-            splash = Instantiate(splashPrefab, transform.position, Quaternion.identity) as GameObject;
-        }
-        else if (collision.CompareTag("Splash"))
-        {
-            HP -= BazookaBomb.splashDamage;
+            Damage(BazookaBomb.bombDamage);
+            splash = true;
         }
         else if (collision.CompareTag("shotGunBullet"))
         {
-            HP -= ShotgunBullet.shotDamage;
+            Damage(ShotgunBullet.shotDamage);
         }
         else return;
         Destroy(collision.gameObject);
 
-        if (splash) Destroy(splash);
-
         GameObject flame = Instantiate(flamePrefab, transform.position, Quaternion.identity) as GameObject;
         Destroy(flame, 0.8f);
+    }
 
+    void Damage(int amount)
+    {
+        HP -= amount;
     }
 
     // float ChooseItem()

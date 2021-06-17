@@ -15,10 +15,11 @@ public class BazookaBomb : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        rb2d.AddForce(this.gameObject.transform.up * speed,ForceMode2D.Impulse);
+        rb2d.AddForce(this.gameObject.transform.up * speed, ForceMode2D.Impulse);
     }
-    void Update() {
-        if(GameController.Instance.gameOver) Destroy(gameObject);
+    void Update()
+    {
+        if (GameController.Instance.gameOver) Destroy(gameObject);
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
