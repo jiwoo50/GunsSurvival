@@ -7,9 +7,11 @@ public class RushMove : MonoBehaviour
     public static int Rush_damage = 5;
 
     public GameObject player;
+
     public float movePower = 5.0f;
 
     Rigidbody2D rb2d;
+
     bool isRush = true;
 
     void Start()

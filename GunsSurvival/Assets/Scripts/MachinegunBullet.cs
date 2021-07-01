@@ -13,6 +13,7 @@ public class MachinegunBullet : MonoBehaviour
     public float speed;
 
     Rigidbody2D rb2d;
+    
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();

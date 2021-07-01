@@ -16,10 +16,16 @@ public class GameController : MonoBehaviour
     }
     private static GameController instance = null;
 
+    public bool gameOver = false;
+    public bool startSpawn = false;
+    public bool canShoot = false;
+
+    public float startWait = 3.0f;
+
     public GameObject gameoverText;
     public GameObject readyText;
-
-    public bool gameOver = false;
+    
+    public Text healthText;
 
     void Awake()
     {
@@ -30,14 +36,11 @@ public class GameController : MonoBehaviour
         }
         else Destroy(gameObject);
     }
+    
     void Start()
     {
         StartCoroutine(ShowReadyText());
-    }
-
-    void Update()
-    {
-
+        StartCoroutine(StartWait());
     }
 
     public void PlayerDead()
@@ -45,6 +48,12 @@ public class GameController : MonoBehaviour
         gameoverText.SetActive(true);
         gameOver = true;
     }
+
+    public void PlayerHealth()
+    {
+        healthText.text = PlayerController.currentHealth + "/" + PlayerController.maxHealth;
+    }
+
     IEnumerator ShowReadyText()
     {
         int cnt = 0;
@@ -57,5 +66,14 @@ public class GameController : MonoBehaviour
 
             ++cnt;
         }
+    }
+
+    IEnumerator StartWait()
+    {
+        startSpawn = false;
+        canShoot = false;
+        yield return new WaitForSeconds(startWait);
+        startSpawn = true;
+        canShoot = true;
     }
 }

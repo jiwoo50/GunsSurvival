@@ -33,6 +33,7 @@ public class TrackingEnemyMove : MonoBehaviour
         {
             Rush();
         }
+
     }
 
     void Rush()

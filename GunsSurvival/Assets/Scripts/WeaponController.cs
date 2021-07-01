@@ -44,7 +44,7 @@ public class WeaponController : MonoBehaviour
     }
     void Fire()
     {
-        if (Input.GetMouseButton(0))
+        if (GameController.Instance.canShoot && Input.GetMouseButton(0))
         {
             if (shootingWeapon[(int)kindOfWeapons.isMachine]) StartCoroutine(FireBullet());
             if (shootingWeapon[(int)kindOfWeapons.isBazooka]) StartCoroutine(FireBomb());

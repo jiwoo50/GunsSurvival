@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyHP : MonoBehaviour
 {
-    public GameObject splashPrefab;
     public GameObject flamePrefab;
     public GameObject boomPrefab;
 
@@ -34,6 +33,10 @@ public class EnemyHP : MonoBehaviour
                 if (hit.gameObject.tag == "Rush" || hit.gameObject.tag == "Tracking")
                 {
                     hit.gameObject.GetComponent<EnemyHP>().Damage(BazookaBomb.splashDamage);
+                    if(hit.gameObject.GetComponent<EnemyHP>().HP > 0){
+                        GameObject flame = Instantiate(flamePrefab, hit.transform.position, Quaternion.identity) as GameObject;
+                        Destroy(flame, 0.8f);
+                    }
                     splash = false;
                 }
             }
@@ -57,8 +60,10 @@ public class EnemyHP : MonoBehaviour
         else return;
         Destroy(collision.gameObject);
 
-        GameObject flame = Instantiate(flamePrefab, transform.position, Quaternion.identity) as GameObject;
-        Destroy(flame, 0.8f);
+        if(HP > 0){
+            GameObject flame = Instantiate(flamePrefab, transform.position, Quaternion.identity) as GameObject;
+            Destroy(flame, 0.8f);
+        }
     }
 
     void Damage(int amount)

@@ -11,14 +11,14 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour
 {
+    public static int currentHealth;
+    public static int maxHealth = 30;
+
     public Boundary boundary;
     public GameObject explosionPrefab;
 
     public float speed;
     public float timeInvincible = 2.0f;
-
-    public int currentHealth;
-    public int maxHealth = 30;
 
     float horizontal, vertical;
     float angle;
@@ -90,6 +90,8 @@ public class PlayerController : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+
+        GameController.Instance.PlayerHealth();
 
         if (currentHealth <= 0)
         {

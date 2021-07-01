@@ -24,7 +24,7 @@ public class ShotgunBullet : MonoBehaviour
 
     void FireShotgun()
     {
-        if (Input.GetMouseButton(0))
+        if (GameController.Instance.canShoot && Input.GetMouseButton(0))
         {
             if (WeaponController.shotGun)
             {
