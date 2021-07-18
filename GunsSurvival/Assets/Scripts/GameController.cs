@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     }
     private static GameController instance = null;
 
+    public static int score = 0;
+
     public bool gameOver = false;
     public bool startSpawn = false;
     public bool canShoot = false;
@@ -24,8 +26,13 @@ public class GameController : MonoBehaviour
 
     public GameObject gameoverText;
     public GameObject readyText;
+    public GameObject player;
     
     public Text healthText;
+    public Text timerText;
+
+    float sec = 0.0f;
+    int min = 0;
 
     void Awake()
     {
@@ -35,12 +42,23 @@ public class GameController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+        SpawnPlayer();
     }
     
     void Start()
     {
         StartCoroutine(ShowReadyText());
         StartCoroutine(StartWait());
+    }
+
+    void Update()
+    {
+        if(gameOver && Input.GetKeyDown("space"))
+        {
+            gameOver = false;
+            SceneManager.LoadScene("GameOverScene");
+        }
+        if(startSpawn) Timer();
     }
 
     public void PlayerDead()
@@ -52,6 +70,27 @@ public class GameController : MonoBehaviour
     public void PlayerHealth()
     {
         healthText.text = PlayerController.currentHealth + "/" + PlayerController.maxHealth;
+    }
+
+    public void ScoreReset()
+    {
+        score = 0;
+    }
+
+    void SpawnPlayer()
+    {
+        Instantiate(player, new Vector3(0, 0, -1), Quaternion.identity);
+    }
+
+    void Timer()
+    {
+        sec += Time.deltaTime;
+        timerText.text = string.Format("{0:D2}:{1:D2}", min, (int)sec);
+        if((int)sec > 59)
+        {
+            sec = 0;
+            ++min;
+        }
     }
 
     IEnumerator ShowReadyText()

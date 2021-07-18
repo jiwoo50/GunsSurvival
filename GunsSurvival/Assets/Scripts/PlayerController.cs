@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         render = gameObject.GetComponent<Renderer>();
         currentHealth = maxHealth;
+
+        GameController.Instance.ScoreReset();
     }
 
     void Update()
