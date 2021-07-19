@@ -16,8 +16,9 @@ public class GameController : MonoBehaviour
     }
     private static GameController instance = null;
 
-    public static int score = 0;
-
+    public static int min = 0;
+    public static float sec = 0.0f;
+    
     public bool gameOver = false;
     public bool startSpawn = false;
     public bool canShoot = false;
@@ -31,16 +32,9 @@ public class GameController : MonoBehaviour
     public Text healthText;
     public Text timerText;
 
-    float sec = 0.0f;
-    int min = 0;
-
     void Awake()
     {
-        if (!instance)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        if (!instance) instance = this;
         else Destroy(gameObject);
         SpawnPlayer();
     }
@@ -48,17 +42,15 @@ public class GameController : MonoBehaviour
     void Start()
     {
         StartCoroutine(ShowReadyText());
-        StartCoroutine(StartWait());
     }
 
     void Update()
     {
         if(gameOver && Input.GetKeyDown("space"))
         {
-            gameOver = false;
             SceneManager.LoadScene("GameOverScene");
         }
-        if(startSpawn) Timer();
+        if(startSpawn && !gameOver) Timer();
     }
 
     public void PlayerDead()
@@ -74,7 +66,8 @@ public class GameController : MonoBehaviour
 
     public void ScoreReset()
     {
-        score = 0;
+        min = 0;
+        sec = 0.0f;
     }
 
     void SpawnPlayer()
@@ -105,13 +98,6 @@ public class GameController : MonoBehaviour
 
             ++cnt;
         }
-    }
-
-    IEnumerator StartWait()
-    {
-        startSpawn = false;
-        canShoot = false;
-        yield return new WaitForSeconds(startWait);
         startSpawn = true;
         canShoot = true;
     }
