@@ -27,7 +27,6 @@ public class GameController : MonoBehaviour
 
     public GameObject gameoverText;
     public GameObject readyText;
-    public GameObject player;
     
     public Text healthText;
     public Text timerText;
@@ -36,7 +35,6 @@ public class GameController : MonoBehaviour
     {
         if (!instance) instance = this;
         else Destroy(gameObject);
-        SpawnPlayer();
     }
     
     void Start()
@@ -68,11 +66,6 @@ public class GameController : MonoBehaviour
     {
         min = 0;
         sec = 0.0f;
-    }
-
-    void SpawnPlayer()
-    {
-        Instantiate(player, new Vector3(0, 0, -1), Quaternion.identity);
     }
 
     void Timer()

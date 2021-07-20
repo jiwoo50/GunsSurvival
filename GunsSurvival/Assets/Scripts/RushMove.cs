@@ -6,22 +6,20 @@ public class RushMove : MonoBehaviour
 {
     public static int Rush_damage = 5;
 
-    public GameObject player;
-
     public float movePower = 5.0f;
 
     Rigidbody2D rb2d;
+    Transform player;
 
     bool isRush = true;
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
     }
     void Update()
     {
-        if (GameController.Instance.gameOver) Destroy(gameObject);
-
         Rush();
         if (Mathf.Abs(transform.position.y) >= 4.89f || Mathf.Abs(transform.position.x) >= 2.95f)
         {
@@ -32,12 +30,13 @@ public class RushMove : MonoBehaviour
     }
     void Rush()
     {
-        if (isRush && !GameController.Instance.gameOver)
+        if (isRush && !GameController.Instance.gameOver && player)
         {
-            Vector3 dir = player.transform.position - transform.position;
+            Vector3 dir = player.position - transform.position;
             dir.Normalize();
             rb2d.AddForce(dir * movePower, ForceMode2D.Impulse);
             isRush = false;
         }
+
     }
 }
