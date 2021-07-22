@@ -12,7 +12,7 @@ public class Boundary
 public class PlayerController : MonoBehaviour
 {
     public static int currentHealth;
-    public static int maxHealth = 30;
+    public static int maxHealth = 1;
 
     public Boundary boundary;
     public GameObject explosionPrefab;
