@@ -161,4 +161,13 @@ MonoBehaviour:
     type: 3}
   boomPrefab: {fileID: 2918271166182000362, guid: 76da42c5101e8144fb3af4056c6bcead,
     type: 3}
+  items:
+  - {fileID: 1630028193727838426, guid: 3d86b0d8b36c4224384af56cbf567c07, type: 3}
+  - {fileID: 821722053760201978, guid: 2d30851cb5710894ea103b1a9511abc2, type: 3}
+  - {fileID: 4650133351365196294, guid: 507ef97c94b1fe24abc7b57ddb2193ac, type: 3}
+  percentage:
+  - 5
+  - 10
+  - 20
+  - 65
   HP: 15

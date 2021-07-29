@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class BtnController : MonoBehaviour, IPointerClickHandler
+public class BtnController : MonoBehaviour
 {
-    public void OnPointerClick(PointerEventData eventData)
+    public void LoadTitleScene()
     {
-        if (SceneManager.GetActiveScene().name == "TitleScene") SceneManager.LoadScene("MainStage");
-        if (SceneManager.GetActiveScene().name == "GameOverScene") SceneManager.LoadScene("TitleScene");
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void LoadMainStageScene()
+    {
+        SceneManager.LoadScene("MainStage");
     }
 }

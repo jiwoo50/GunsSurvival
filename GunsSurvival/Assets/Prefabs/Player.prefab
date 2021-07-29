@@ -355,8 +355,8 @@ MonoBehaviour:
   boundary:
     xMin: -2.8
     xMax: 2.8
-    yMin: -4.68
-    yMax: 4.68
+    yMin: -4.6
+    yMax: 4.75
   explosionPrefab: {fileID: 2918271166182000362, guid: 76da42c5101e8144fb3af4056c6bcead,
     type: 3}
   speed: 5

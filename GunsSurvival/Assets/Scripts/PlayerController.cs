@@ -12,7 +12,7 @@ public class Boundary
 public class PlayerController : MonoBehaviour
 {
     public static int currentHealth;
-    public static int maxHealth = 1;
+    public static int maxHealth = 30;
 
     public Boundary boundary;
     public GameObject explosionPrefab;
@@ -55,7 +55,6 @@ public class PlayerController : MonoBehaviour
     void MoveNRotate()
     {
         Vector2 position = rb2d.position;
-        Vector3 rotation = gameObject.transform.rotation.eulerAngles;
         position.x += speed * horizontal * Time.deltaTime;
         position.y += speed * vertical * Time.deltaTime;
 
@@ -65,7 +64,7 @@ public class PlayerController : MonoBehaviour
         rb2d.MovePosition(position);
     }
 
-    void OnTriggerStay2D(Collider2D collision) // item -> call OnTriggerEnter2D 
+    void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Rush"))
         {
@@ -78,10 +77,19 @@ public class PlayerController : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.gameObject.CompareTag("HealthPotion")))
+        if (collision.gameObject.CompareTag("HP05") && currentHealth < maxHealth)
         {
-            ChangeHealth(1);//아이템 추가시 변경
+            ChangeHealth(5);
         }
+
+        if (collision.gameObject.CompareTag("HP10") && currentHealth < maxHealth)
+        {
+            ChangeHealth(10);
+        }
+
+        else return;
+
+        Destroy(collision.gameObject);
     }
     void ChangeHealth(int amount)
     {
@@ -92,7 +100,6 @@ public class PlayerController : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-
         GameController.Instance.PlayerHealth();
 
         if (currentHealth <= 0)

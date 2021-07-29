@@ -7,8 +7,8 @@ public class EnemyHP : MonoBehaviour
     public GameObject flamePrefab;
     public GameObject boomPrefab;
 
-    //public GameObject[] items;
-    //public float[] percentage;
+    public GameObject[] items;
+    public float[] percentage;
 
     public int HP;
 
@@ -20,17 +20,20 @@ public class EnemyHP : MonoBehaviour
     {
         if (HP <= 0)
         {
-            Destroy(gameObject);
-            GameObject boom = Instantiate(boomPrefab, transform.position, Quaternion.identity) as GameObject;
+            Destroy(this.gameObject);
+            GameObject boom = Instantiate(boomPrefab, this.gameObject.transform.position, Quaternion.identity) as GameObject;
             Destroy(boom, 1.0f);
-            //GameObject projectileObject = Instantiate(items[(int)ChooseItem()], this.gameObject.transform.position, Quaternion.identity);
+
+            int idx = (int)ChooseItem();
+            if (idx < items.Length) Instantiate(items[idx], this.gameObject.transform.position, Quaternion.identity);
         }
+
         if (splash)
         {
-            Collider2D[] hitobj = Physics2D.OverlapCircleAll(transform.position, splashRadius);
-            foreach (Collider2D hit in hitobj)
+            Collider2D[] hitObj = Physics2D.OverlapCircleAll(transform.position, splashRadius);
+            foreach (Collider2D hit in hitObj)
             {
-                if (hit.gameObject.tag == "Rush" || hit.gameObject.tag == "Tracking")
+                if (hit.gameObject.CompareTag("Rush") || hit.gameObject.CompareTag("Tracking"))
                 {
                     hit.gameObject.GetComponent<EnemyHP>().Damage(BazookaBomb.splashDamage);
                     if(hit.gameObject.GetComponent<EnemyHP>().HP > 0){
@@ -42,6 +45,7 @@ public class EnemyHP : MonoBehaviour
             }
         }
     }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("machineGunBullet"))
@@ -71,25 +75,25 @@ public class EnemyHP : MonoBehaviour
         HP -= amount;
     }
 
-    // float ChooseItem()
-    // {
-    //     float total = 0;
-    //     foreach (float elem in percentage)
-    //     {
-    //         total += elem;
-    //     }
-    //     float randomPoint = Random.value * total;
-    //     for (int i = 0; i < percentage.Length; i++)
-    //     {
-    //         if (randomPoint < percentage[i])
-    //         {
-    //             return i;
-    //         }
-    //         else
-    //         {
-    //             randomPoint -= percentage[i];
-    //         }
-    //     }
-    //     return percentage.Length - 1;
-    // }
+    float ChooseItem()
+    {
+        float total = 0;
+        foreach (float elem in percentage)
+        {
+            total += elem;
+        }
+        float randomPoint = Random.value * total;
+        for (int i = 0; i < percentage.Length; i++)
+        {
+            if (randomPoint < percentage[i])
+            {
+                return i;
+            }
+            else
+            {
+                randomPoint -= percentage[i];
+            }
+        }
+        return percentage.Length - 1;
+    }
 }

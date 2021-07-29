@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bbf5a7256d5f4498d05b31708e42a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1405981287331366475, guid: 49a3c56f8150f6b42a232b27a53cd61d, type: 3}
   movePower: 1
 --- !u!61 &7261407942339554862
 BoxCollider2D:
@@ -162,4 +161,13 @@ MonoBehaviour:
     type: 3}
   boomPrefab: {fileID: 2918271166182000362, guid: 76da42c5101e8144fb3af4056c6bcead,
     type: 3}
+  items:
+  - {fileID: 1630028193727838426, guid: 3d86b0d8b36c4224384af56cbf567c07, type: 3}
+  - {fileID: 821722053760201978, guid: 2d30851cb5710894ea103b1a9511abc2, type: 3}
+  - {fileID: 4650133351365196294, guid: 507ef97c94b1fe24abc7b57ddb2193ac, type: 3}
+  percentage:
+  - 5
+  - 10
+  - 20
+  - 65
   HP: 5
