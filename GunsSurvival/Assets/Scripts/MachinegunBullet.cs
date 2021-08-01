@@ -23,7 +23,7 @@ public class MachinegunBullet : MonoBehaviour
     void Update()
     {
         if(GameController.Instance.gameOver) Destroy(gameObject);
-        if(gameObject) Destroy(this.gameObject, flyingTime); //bullet flies during flyingTime
+        if(gameObject) Destroy(this.gameObject, flyingTime);
     }
 
     void OnTriggerEnter2D(Collider2D collision)

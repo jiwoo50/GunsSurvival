@@ -52,15 +52,18 @@ public class EnemyHP : MonoBehaviour
         {
             Damage(MachinegunBullet.bulletDamage);
         }
+
         else if (collision.CompareTag("bazookaBomb"))
         {
             Damage(BazookaBomb.bombDamage);
             splash = true;
         }
+
         else if (collision.CompareTag("shotGunBullet"))
         {
             Damage(ShotgunBullet.shotDamage);
         }
+
         else return;
         Destroy(collision.gameObject);
 
@@ -82,6 +85,7 @@ public class EnemyHP : MonoBehaviour
         {
             total += elem;
         }
+        Debug.Log(total);
         float randomPoint = Random.value * total;
         for (int i = 0; i < percentage.Length; i++)
         {

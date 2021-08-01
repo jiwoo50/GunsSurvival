@@ -15,6 +15,9 @@ public class ShotgunBullet : MonoBehaviour
 
     public int numOfBullets;
 
+    float flyingTime = 5.0f;
+    float nextFire;
+
     Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
 
     void Update()
@@ -30,7 +33,7 @@ public class ShotgunBullet : MonoBehaviour
             {
                 float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z + 90);
                 float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z + 90);
-                StartCoroutine(Fire());
+                ShotGun();
                 bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x * cos - bulletSpawn.transform.position.y * sin;
                 bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
             }
@@ -40,28 +43,27 @@ public class ShotgunBullet : MonoBehaviour
     {
         for (int i = 0; i < numOfBullets; i++)
         {
-            //총알 토큰 생성
             GameObject tempBullet = (GameObject)Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-            //총알에 물리 부여
             Rigidbody2D tempBulletRB = tempBullet.GetComponent<Rigidbody2D>();
-            float spreadAngle = -10 + 20 * i / numOfBullets;//총알의 각도
+
+            float spreadAngle = -10 + 20 * i / numOfBullets;
             float x = bulletSpawn.transform.position.x - player.transform.position.x;
             float y = bulletSpawn.transform.position.y - player.transform.position.y;
-            float rotateAngle = spreadAngle + (Mathf.Atan2(y, x) * Mathf.Rad2Deg) + player.transform.rotation.z + 30.0f;//발사되는 각 계산
+            float rotateAngle = spreadAngle + (Mathf.Atan2(y, x) * Mathf.Rad2Deg) + player.transform.rotation.z + 30.0f;
+
             Vector2 MovementDirection = new Vector2(Mathf.Cos(rotateAngle * Mathf.Deg2Rad), Mathf.Sin(rotateAngle * Mathf.Deg2Rad)).normalized;
             tempBulletRB.AddForce(MovementDirection * bulletSpeed, ForceMode2D.Impulse);
-            Destroy(tempBullet, 5.0f);
+
+            Destroy(tempBullet, flyingTime);
         }
     }
 
-    IEnumerator Fire()
+    void ShotGun()
     {
-        if (!WeaponController.shotgunFire)
+        if(Time.time > nextFire)
         {
-            WeaponController.shotgunFire = true;
+            nextFire = Time.time + shootDelay;
             Shot();
-            yield return new WaitForSeconds(shootDelay);
-            WeaponController.shotgunFire = false;
         }
     }
 }

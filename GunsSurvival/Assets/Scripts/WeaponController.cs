@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class WeaponController : MonoBehaviour
 {
     enum kindOfWeapons { isMachine = 0, isShot, isBazooka }
@@ -12,10 +13,14 @@ public class WeaponController : MonoBehaviour
     public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
     public GameObject bulletSpawn;
 
+    float nextFire;
+
+    public Image gauge;
+    float speed = 5.0f;
+    float currValue;
+
     float machineGunDelay = 0.5f;
-    bool machineFire = false;
-    float bazookaDelay = 1.5f;
-    bool bazookaFire = false;
+    float bazookaDelay = 1.0f;
     float changeDelay = 0.5f;
 
     int cnt = 0;
@@ -35,28 +40,28 @@ public class WeaponController : MonoBehaviour
             if (cnt >= guns.Length) cnt = 0;
             StopAllCoroutines();
             StartCoroutine(SwitchDelay(cnt));
-            machineFire = false;
-            bazookaFire = false;
             shotgunFire = false;
         }
         shotGun = shootingWeapon[(int)kindOfWeapons.isShot];
         Fire();
+        GaugeProgress();
     }
     void Fire()
     {
         if (GameController.Instance.canShoot && Input.GetMouseButton(0))
         {
-            if (shootingWeapon[(int)kindOfWeapons.isMachine]) StartCoroutine(FireBullet());
-            if (shootingWeapon[(int)kindOfWeapons.isBazooka]) StartCoroutine(FireBomb());
+            if (shootingWeapon[(int)kindOfWeapons.isMachine] && Time.time > nextFire)
+            {
+                nextFire = Time.time + machineGunDelay;
+                Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+            }
+
+            if (shootingWeapon[(int)kindOfWeapons.isBazooka] && Time.time > nextFire)
+            {
+                nextFire = Time.time + bazookaDelay;
+                Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+            }
         }
-    }
-    void MachineGun()
-    {
-        Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-    }
-    void Bazooka()
-    {
-        Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
     }
     void InitializeWeapon()
     {
@@ -67,6 +72,7 @@ public class WeaponController : MonoBehaviour
         guns[(int)kindOfWeapons.isMachine].SetActive(true);
         shootingWeapon[(int)kindOfWeapons.isMachine] = true;
     }
+
     IEnumerator SwitchDelay(int idx)
     {
         isSwitching = true;
@@ -74,6 +80,7 @@ public class WeaponController : MonoBehaviour
         yield return new WaitForSeconds(changeDelay);
         isSwitching = false;
     }
+
     void SwitchWeapon(int idx)
     {
         for (int i = 0; i < guns.Length; i++)
@@ -85,25 +92,11 @@ public class WeaponController : MonoBehaviour
         shootingWeapon[idx] = true;
     }
 
-    IEnumerator FireBullet()
+    void GaugeProgress()
     {
-        if (!machineFire)
-        {
-            machineFire = true;
-            MachineGun();
-            yield return new WaitForSeconds(machineGunDelay);
-            machineFire = false;
-        }
-    }
-
-    IEnumerator FireBomb()
-    {
-        if (!bazookaFire)
-        {
-            bazookaFire = true;
-            Bazooka();
-            yield return new WaitForSeconds(bazookaDelay);
-            bazookaFire = false;
+        if (GameController.Instance.canShoot) {
+            if (currValue < 100) currValue += speed * Time.deltaTime;
+            gauge.fillAmount = currValue / 100;
         }
     }
 }

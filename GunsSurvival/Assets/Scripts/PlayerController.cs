@@ -77,18 +77,19 @@ public class PlayerController : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("HP05") && currentHealth < maxHealth)
+        if (collision.gameObject.CompareTag("HP05"))
         {
+            if (currentHealth >= maxHealth) return;
             ChangeHealth(5);
         }
 
-        if (collision.gameObject.CompareTag("HP10") && currentHealth < maxHealth)
+        else if (collision.gameObject.CompareTag("HP10"))
         {
+            if (currentHealth >= maxHealth) return;
             ChangeHealth(10);
         }
 
         else return;
-
         Destroy(collision.gameObject);
     }
     void ChangeHealth(int amount)
