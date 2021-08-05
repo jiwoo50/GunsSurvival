@@ -1,43 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShotgunBullet : MonoBehaviour
 {
-    //shotgun bullet
     public static int shotDamage = 5;
+
     public GameObject bulletSpawn;
     public GameObject bullet;
     public GameObject player;
+    public Image shotgunGauge;
 
     public float bulletSpeed;
     public float shootDelay = 1.0f;
 
     public int numOfBullets;
 
-    float flyingTime = 5.0f;
+    float flyingTime = 3.0f;
     float nextFire;
+    float shotVal = 0.0f;
+
+    bool shotgunOverheat = false;
+    bool isShotGauge = false;
 
     Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
 
     void Update()
     {
         FireShotgun();
+        ShotGunGaugeProgress();
     }
 
     void FireShotgun()
     {
         if (GameController.Instance.canShoot && Input.GetMouseButton(0))
         {
-            if (WeaponController.shotGun)
+            if (WeaponController.shotGun && Time.time > nextFire && !shotgunOverheat)
             {
+                nextFire = Time.time + shootDelay;
+                Shot();
+                isShotGauge = true;
+                if (shotVal < 100)
+                {
+                    shotVal += 5.0f;
+                    shotgunOverheat = false;
+                }
+
                 float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z + 90);
                 float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z + 90);
-                ShotGun();
                 bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x * cos - bulletSpawn.transform.position.y * sin;
                 bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
             }
         }
+        else isShotGauge = false;
     }
     void Shot()
     {
@@ -58,12 +74,20 @@ public class ShotgunBullet : MonoBehaviour
         }
     }
 
-    void ShotGun()
+    void ShotGunGaugeProgress()
     {
-        if(Time.time > nextFire)
+        if (GameController.Instance.canShoot && isShotGauge)
         {
-            nextFire = Time.time + shootDelay;
-            Shot();
+            if (shotVal >= 96) shotgunOverheat = true;
         }
+        else
+        {
+            if (shotVal > 0)
+            {
+                shotVal -= WeaponController.gaugeSpeed * Time.deltaTime;
+                shotgunOverheat = false;
+            }
+        }
+        shotgunGauge.fillAmount = shotVal / 100;
     }
 }

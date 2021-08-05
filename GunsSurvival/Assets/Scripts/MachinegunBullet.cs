@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MachinegunBullet : MonoBehaviour
 {
-    //Machine Gun bullet
     public static int bulletDamage = 10;
     public float flyingTime = 0.35f;
 
