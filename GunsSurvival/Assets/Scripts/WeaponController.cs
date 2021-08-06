@@ -53,7 +53,7 @@ public class WeaponController : MonoBehaviour
         {
             ++cnt;
             if (cnt >= guns.Length) cnt = 0;
-            StopAllCoroutines();
+            //StopAllCoroutines();
             StartCoroutine(SwitchDelay(cnt));
         }
 
@@ -64,7 +64,7 @@ public class WeaponController : MonoBehaviour
 
     void Fire()
     {
-        if (GameController.Instance.canShoot && Input.GetMouseButton(0))
+        if (GameController.Instance.canShoot && Input.GetMouseButton(0) && !PauseMenu.gamePaused)
         {
             if (shootingWeapon[(int)kindOfWeapons.isMachine] && Time.time > nextFire && !machineOverheat)
             {
@@ -96,6 +96,7 @@ public class WeaponController : MonoBehaviour
             isBazookaeGauge = false;
         }
     }
+
     void InitializeWeapon()
     {
         for (int i = 0; i < guns.Length; i++)
@@ -141,6 +142,7 @@ public class WeaponController : MonoBehaviour
         }
         machineGauge.fillAmount = machineVal / 100;
     }
+
     void BazookaeGaugeProgress()
     {
         if (GameController.Instance.canShoot && isBazookaeGauge)

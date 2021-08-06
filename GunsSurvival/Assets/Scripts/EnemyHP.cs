@@ -85,7 +85,6 @@ public class EnemyHP : MonoBehaviour
         {
             total += elem;
         }
-        Debug.Log(total);
         float randomPoint = Random.value * total;
         for (int i = 0; i < percentage.Length; i++)
         {

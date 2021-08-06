@@ -34,7 +34,7 @@ public class ShotgunBullet : MonoBehaviour
 
     void FireShotgun()
     {
-        if (GameController.Instance.canShoot && Input.GetMouseButton(0))
+        if (GameController.Instance.canShoot && Input.GetMouseButton(0) && !PauseMenu.gamePaused)
         {
             if (WeaponController.shotGun && Time.time > nextFire && !shotgunOverheat)
             {
