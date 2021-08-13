@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MachinegunBullet : MonoBehaviour
 {
-    public static int bulletDamage = 10;
+    public static float bulletDamage = 7.0f;
     public float flyingTime = 0.35f;
 
     public GameObject player;

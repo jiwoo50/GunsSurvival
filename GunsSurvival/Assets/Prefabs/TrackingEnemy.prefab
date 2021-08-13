@@ -168,6 +168,6 @@ MonoBehaviour:
   percentage:
   - 5
   - 10
-  - 20
-  - 65
+  - 15
+  - 70
   HP: 5

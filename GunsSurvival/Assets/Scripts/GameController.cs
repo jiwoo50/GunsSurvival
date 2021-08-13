@@ -25,11 +25,13 @@ public class GameController : MonoBehaviour
 
     public float startWait = 3.0f;
 
-    public GameObject gameoverText;
-    public GameObject readyText;
-    
+    public Text gameoverText;
+    public Text readyText;
     public Text healthText;
     public Text timerText;
+    public Text upgradeText;
+    public Text maxLevelText;
+    public Text levelText;
 
     void Awake()
     {
@@ -40,6 +42,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         StartCoroutine(ShowReadyText());
+        PlayerHealth();
+        PlayerLevel();
     }
 
     void Update()
@@ -49,23 +53,36 @@ public class GameController : MonoBehaviour
             SceneManager.LoadScene("GameOverScene");
         }
         if(startSpawn && !gameOver) Timer();
+
+        if (PlayerController.achieveMaxLevel) ShowMaxLevelText();
+        if (PlayerController.completeUpgrade) upgradeText.gameObject.SetActive(false);
     }
 
     public void PlayerDead()
     {
-        gameoverText.SetActive(true);
+        gameoverText.gameObject.SetActive(true);
         gameOver = true;
     }
 
     public void PlayerHealth()
     {
-        healthText.text = PlayerController.currentHealth + "/" + PlayerController.maxHealth;
+        healthText.text = PlayerController.currHealth.ToString() + "/" + PlayerController.maxHealth.ToString(); 
     }
 
     public void ScoreReset()
     {
         min = 0;
         sec = 0.0f;
+    }
+
+    public void ShowUpgradeText()
+    {
+        upgradeText.gameObject.SetActive(true);
+    }
+
+   public void PlayerLevel()
+    {
+        levelText.text = "Lv" + PlayerController.currLevel.ToString();
     }
 
     void Timer()
@@ -79,19 +96,24 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void ShowMaxLevelText()
+    {
+        maxLevelText.gameObject.SetActive(true);
+    }
+
     IEnumerator ShowReadyText()
     {
         int cnt = 0;
         while(cnt < 3)
         {
-            readyText.SetActive(true);
+            readyText.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
-            readyText.SetActive(false);
+            readyText.gameObject.SetActive(false);
             yield return new WaitForSeconds(0.5f);
 
             ++cnt;
         }
         startSpawn = true;
         canShoot = true;
-    }
+    }    
 }

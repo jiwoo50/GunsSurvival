@@ -8,6 +8,8 @@ public class WeaponController : MonoBehaviour
 
     public static bool shotGun = false;
     public static float gaugeSpeed = 8.0f;
+    public static float machineGunShotDelay = 0.75f;
+    public static float bazookaShotDelay = 1.5f;
 
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
     public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
@@ -17,9 +19,7 @@ public class WeaponController : MonoBehaviour
 
     Renderer render;
     
-    float machineGunDelay = 0.5f;
-    float bazookaDelay = 1.0f;
-    float changeDelay = 0.5f;
+    float changeDelay = 1.0f;
     float nextFire;
     float machineVal = 0.0f;
     float bazookaVal = 0.0f;
@@ -68,7 +68,7 @@ public class WeaponController : MonoBehaviour
         {
             if (shootingWeapon[(int)kindOfWeapons.isMachine] && Time.time > nextFire && !machineOverheat)
             {
-                nextFire = Time.time + machineGunDelay;
+                nextFire = Time.time + machineGunShotDelay;
                 Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
                 isMchineGauge = true;
                 if (machineVal < 100)
@@ -80,7 +80,7 @@ public class WeaponController : MonoBehaviour
 
             if (shootingWeapon[(int)kindOfWeapons.isBazooka] && Time.time > nextFire && !bazookaOverheat)
             {
-                nextFire = Time.time + bazookaDelay;
+                nextFire = Time.time + bazookaShotDelay;
                 Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
                 isBazookaeGauge = true;
                 if (bazookaVal < 100)

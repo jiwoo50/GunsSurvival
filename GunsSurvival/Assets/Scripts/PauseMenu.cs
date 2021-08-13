@@ -12,16 +12,14 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused)
-        {
-            Pause();
-        }
+        if (gamePaused) Time.timeScale = 0.0f;
+        else Time.timeScale = 1.0f;
+        if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused) Pause();
     }
 
     void Pause()
     {
         pauseMenu.SetActive(true);
-        Time.timeScale = 0.0f;
         gamePaused = true;
     }
 
@@ -35,17 +33,7 @@ public class PauseMenu : MonoBehaviour
     {
         GameController.Instance.gameOver = true;
         gamePaused = false;
-        Time.timeScale = 1.0f;
         SceneManager.LoadScene("TitleScene");
-    }
-
-    public void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
     }
 
     IEnumerator CountDown()
@@ -56,7 +44,6 @@ public class PauseMenu : MonoBehaviour
             yield return new WaitForSecondsRealtime(1.0f);
             countDownTxt[i].SetActive(false);
         }
-        Time.timeScale = 1.0f;
         gamePaused = false;
     }
 }

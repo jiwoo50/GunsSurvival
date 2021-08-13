@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BazookaBomb : MonoBehaviour
 {
-    public float speed;
+    public static float bombDamage = 15.0f;
+    public static float splashDamage = 4.0f;
 
-    public static int bombDamage = 20;
-    public static int splashDamage = 5;
+    public float speed = 7.0f;
 
     Rigidbody2D rb2d;
 

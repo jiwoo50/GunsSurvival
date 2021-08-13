@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class ShotgunBullet : MonoBehaviour
 {
-    public static int shotDamage = 5;
+    public static float shotDamage = 4.0f;
+    public static float shotDelay = 1.2f;
 
     public GameObject bulletSpawn;
     public GameObject bullet;
@@ -13,8 +14,7 @@ public class ShotgunBullet : MonoBehaviour
     public Image shotgunGauge;
 
     public float bulletSpeed;
-    public float shootDelay = 1.0f;
-
+    
     public int numOfBullets;
 
     float flyingTime = 3.0f;
@@ -38,12 +38,12 @@ public class ShotgunBullet : MonoBehaviour
         {
             if (WeaponController.shotGun && Time.time > nextFire && !shotgunOverheat)
             {
-                nextFire = Time.time + shootDelay;
+                nextFire = Time.time + shotDelay;
                 Shot();
                 isShotGauge = true;
                 if (shotVal < 100)
                 {
-                    shotVal += 5.0f;
+                    shotVal += 8.0f;
                     shotgunOverheat = false;
                 }
 
@@ -62,7 +62,7 @@ public class ShotgunBullet : MonoBehaviour
             GameObject tempBullet = (GameObject)Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
             Rigidbody2D tempBulletRB = tempBullet.GetComponent<Rigidbody2D>();
 
-            float spreadAngle = -10 + 20 * i / numOfBullets;
+            float spreadAngle = -16 + 40 * i / numOfBullets;
             float x = bulletSpawn.transform.position.x - player.transform.position.x;
             float y = bulletSpawn.transform.position.y - player.transform.position.y;
             float rotateAngle = spreadAngle + (Mathf.Atan2(y, x) * Mathf.Rad2Deg) + player.transform.rotation.z + 30.0f;
@@ -78,7 +78,7 @@ public class ShotgunBullet : MonoBehaviour
     {
         if (GameController.Instance.canShoot && isShotGauge)
         {
-            if (shotVal >= 96) shotgunOverheat = true;
+            if (shotVal >= 93) shotgunOverheat = true;
         }
         else
         {

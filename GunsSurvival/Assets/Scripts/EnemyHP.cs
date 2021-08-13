@@ -10,7 +10,7 @@ public class EnemyHP : MonoBehaviour
     public GameObject[] items;
     public float[] percentage;
 
-    public int HP;
+    public float HP;
 
     float splashRadius = 1.0f;
 
@@ -20,6 +20,8 @@ public class EnemyHP : MonoBehaviour
     {
         if (HP <= 0)
         {
+            if (this.gameObject.CompareTag("Rush")) PlayerController.exp += 1.0f;
+            if (this.gameObject.CompareTag("Tracking")) PlayerController.exp += 3.0f;
             Destroy(this.gameObject);
             GameObject boom = Instantiate(boomPrefab, this.gameObject.transform.position, Quaternion.identity) as GameObject;
             Destroy(boom, 1.0f);
@@ -73,7 +75,7 @@ public class EnemyHP : MonoBehaviour
         }
     }
 
-    void Damage(int amount)
+    void Damage(float amount)
     {
         HP -= amount;
     }
