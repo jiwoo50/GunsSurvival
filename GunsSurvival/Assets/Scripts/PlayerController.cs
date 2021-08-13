@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour
     void GetEXP()
     {
         if (exp >= 100 && currLevel < maxLevel)
+        {
             completeUpgrade = false;
             GameController.Instance.ShowUpgradeText();
             chooseUpgrade = true;
