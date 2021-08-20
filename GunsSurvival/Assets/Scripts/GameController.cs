@@ -123,10 +123,10 @@ public class GameController : MonoBehaviour
     void ReinforceEnemy() //every 1 minutes, enemies are reinforeced(get more HP, damage and speed)
     {
         ++reinforceCnt;
-        triangleHP += 3;
-        rectangleHP += 3;
-        pentagonHP += 3;
-        PlayerController.rushDamage += 1;
+        triangleHP += 3.0f;
+        rectangleHP += 3.0f;
+        pentagonHP += 3.0f;
+        PlayerController.rushDamage += 1; 
         PlayerController.trackingDamage += 1;
         PlayerController.divisiveEnemyDamage += 1;
         TrackingEnemyMove.movePower += 0.5f;

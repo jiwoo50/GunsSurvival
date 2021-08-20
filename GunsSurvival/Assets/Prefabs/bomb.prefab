@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1225993479617970078}
   - component: {fileID: 1225993479617970079}
   - component: {fileID: 4307291636518545415}
-  - component: {fileID: 7353192160294655577}
+  - component: {fileID: -4132430435074891672}
   m_Layer: 0
   m_Name: bomb
   m_TagString: bazookaBomb
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.16
---- !u!114 &7353192160294655577
+--- !u!114 &-4132430435074891672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,7 +130,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1225993479617970072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b302262418c1974fad42b01d6e11787, type: 3}
+  m_Script: {fileID: 11500000, guid: 43e899b189b6095488b9e6d1b16d84de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8

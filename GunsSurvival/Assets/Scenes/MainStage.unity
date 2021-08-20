@@ -708,6 +708,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 250947852}
   m_CullTransparentMesh: 0
+--- !u!1 &362800770 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2747677620966036025, guid: 49a3c56f8150f6b42a232b27a53cd61d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2747677622425277943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &362800773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362800770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6d111ce83848943a460e79adab45e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1201688239}
+  bulletSpawn: {fileID: 389421010}
+  bullet: {fileID: 2832960306738731760, guid: 4272412cd6a85984383fa086230b37e9, type: 3}
+  machineGauge: {fileID: 1827317282}
+  bulletSpeed: 10
 --- !u!1 &366681151
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,6 +812,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &389421010 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2747677621707294536, guid: 49a3c56f8150f6b42a232b27a53cd61d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2747677622425277943}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &414248008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,6 +2132,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1201688239 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2747677621391783874, guid: 49a3c56f8150f6b42a232b27a53cd61d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2747677622425277943}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1242931333
 GameObject:
   m_ObjectHideFlags: 0
@@ -3648,6 +3683,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846556394}
   m_CullTransparentMesh: 0
+--- !u!1 &1859737591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2747677621189672148, guid: 49a3c56f8150f6b42a232b27a53cd61d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2747677622425277943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1859737594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859737591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b302262418c1974fad42b01d6e11787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1201688239}
+  bulletSpawn: {fileID: 389421010}
+  bomb: {fileID: 1225993479617970072, guid: 6a4aa72489ea8184d890f9a21d5b1706, type: 3}
+  bazookaGauge: {fileID: 1612269934}
+  bombSpeed: 7
 --- !u!1 &1895462816
 GameObject:
   m_ObjectHideFlags: 0

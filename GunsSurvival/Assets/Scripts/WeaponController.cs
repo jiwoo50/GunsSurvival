@@ -9,92 +9,31 @@ public class WeaponController : MonoBehaviour
 
     public static bool[] shootingWeapon = { false, false, false };
     public static bool shotGun = false;
+    public static bool bazooka = false;
+    public static bool machineGun = false;
     public static float gaugeSpeed = 8.0f;
-    public static float machineGunShotDelay = 0.75f;
-    public static float bazookaShotDelay = 1.5f;
-    public static float machineVal = 0.0f;
-    public static float bazookaVal = 0.0f;
 
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
-    public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
-    public GameObject bulletSpawn;
-    public Image machineGauge;
-    public Image bazookaGauge;
 
-    Renderer render;
-    
     float changeDelay = 1.0f;
-    float nextFire;
-
     bool isSwitching = false;
-    bool isMchineGauge = false;
-    bool isBazookaeGauge = false;
-    bool machineOverheat = false;
-    bool bazookaOverheat = false;
-
     int cnt = 0;
 
     void Start()
     {
-        render = guns[(int)kindOfWeapons.isShot].GetComponent<Renderer>();
         InitializeWeapon();
     }
 
     void Update()
     {
         shotGun = shootingWeapon[(int)kindOfWeapons.isShot];
-        if (!shotGun)
-        {
-            guns[(int)kindOfWeapons.isShot].SetActive(true);
-            render.material.color = new Color(1, 1, 1, 0);
-        }
-        else render.material.color = new Color(1, 1, 1, 1);
-
+        machineGun = shootingWeapon[(int)kindOfWeapons.isMachine];
+        bazooka = shootingWeapon[(int)kindOfWeapons.isBazooka];
         if (Input.GetKeyDown(KeyCode.Space) && !isSwitching)
         {
             ++cnt;
             if (cnt >= guns.Length) cnt = 0;
-            //StopAllCoroutines();
             StartCoroutine(SwitchDelay(cnt));
-        }
-
-        Fire();
-        MachineGaugeProgress();
-        BazookaeGaugeProgress();
-    }
-
-    void Fire()
-    {
-        if (GameController.Instance.canShoot && Input.GetMouseButton(0) && !PauseMenu.gamePaused)
-        {
-            if (shootingWeapon[(int)kindOfWeapons.isMachine] && Time.time > nextFire && !machineOverheat)
-            {
-                nextFire = Time.time + machineGunShotDelay;
-                Instantiate(projectile[(int)kindOfWeapons.isMachine], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-                isMchineGauge = true;
-                if (machineVal < 100)
-                {
-                    machineVal += 2.0f;
-                    machineOverheat = false;
-                }
-            }
-
-            if (shootingWeapon[(int)kindOfWeapons.isBazooka] && Time.time > nextFire && !bazookaOverheat)
-            {
-                nextFire = Time.time + bazookaShotDelay;
-                Instantiate(projectile[(int)kindOfWeapons.isBazooka], bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-                isBazookaeGauge = true;
-                if (bazookaVal < 100)
-                {
-                    bazookaVal += 10.0f;
-                    bazookaOverheat = false;
-                }
-            }  
-        }
-        else
-        {
-            isMchineGauge = false;
-            isBazookaeGauge = false;
         }
     }
 
@@ -102,9 +41,12 @@ public class WeaponController : MonoBehaviour
     {
         for (int i = 0; i < guns.Length; i++)
         {
-            guns[i].SetActive(false);
+            guns[i].SetActive(true); //all guns are set active
+            Renderer render = guns[i].GetComponent<Renderer>();
+            render.material.color = new Color(1, 1, 1, 0); //all guns are transparent in color.
         }
-        guns[(int)kindOfWeapons.isMachine].SetActive(true);
+        Renderer mRender = guns[(int)kindOfWeapons.isMachine].GetComponent<Renderer>();
+        mRender.material.color = new Color(1, 1, 1, 1); //only machine gun gets own color
         shootingWeapon[(int)kindOfWeapons.isMachine] = true;
     }
 
@@ -118,46 +60,14 @@ public class WeaponController : MonoBehaviour
 
     void SwitchWeapon(int idx)
     {
+        Renderer idxRender = guns[idx].GetComponent<Renderer>();
         for (int i = 0; i < guns.Length; i++)
         {
-            guns[i].SetActive(false);
+            Renderer render = guns[i].GetComponent<Renderer>();
+            render.material.color = new Color(1, 1, 1, 0);
             shootingWeapon[i] = false;
         }
-        guns[idx].SetActive(true);
+        idxRender.material.color = new Color(1, 1, 1, 1);
         shootingWeapon[idx] = true;
-    }
-
-    void MachineGaugeProgress()
-    {
-        if (GameController.Instance.canShoot && isMchineGauge)
-        {
-            if (machineVal >= 100) machineOverheat = true;
-        }
-        else
-        {
-            if (machineVal > 0)
-            {
-                machineVal -= gaugeSpeed * Time.deltaTime;
-                machineOverheat = false;
-            }
-        }
-        machineGauge.fillAmount = machineVal / 100;
-    }
-
-    void BazookaeGaugeProgress()
-    {
-        if (GameController.Instance.canShoot && isBazookaeGauge)
-        {
-            if (bazookaVal >= 91) bazookaOverheat = true;
-        }
-        else
-        {
-            if (bazookaVal > 0)
-            {
-                bazookaVal -= gaugeSpeed * Time.deltaTime;
-                bazookaOverheat = false;
-            } 
-        }
-        bazookaGauge.fillAmount = bazookaVal / 100;
     }
 }

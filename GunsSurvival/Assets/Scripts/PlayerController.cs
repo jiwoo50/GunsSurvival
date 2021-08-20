@@ -140,23 +140,23 @@ public class PlayerController : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Gauge15")) //Recover Gauge
         {
-            for(int i = 0; i < WeaponController.shootingWeapon.Length; i++) //0:machine, 1:shot, 3:bazooka
+            for(int i = 0; i < WeaponController.shootingWeapon.Length; i++)
             {
                 if (WeaponController.shootingWeapon[i])
                 {
                     switch (i)
                     {
-                        case 0:
-                            if (WeaponController.machineVal <= 15.0f) WeaponController.machineVal = 0.0f;
-                            else WeaponController.machineVal -= 15.0f;
+                        case 0: //machine gun
+                            if (MachinegunBullet.machineVal <= 15.0f) MachinegunBullet.machineVal = 0.0f;
+                            else MachinegunBullet.machineVal -= 15.0f;
                             break;
-                        case 1:
+                        case 1: //shot gun
                             if (ShotgunBullet.shotVal <= 15.0f) ShotgunBullet.shotVal = 0.0f;
                             else ShotgunBullet.shotVal -= 15.0f;
                             break;
-                        case 2:
-                            if (WeaponController.bazookaVal <= 15.0f) WeaponController.bazookaVal = 0.0f;
-                            else WeaponController.bazookaVal -= 15.0f;
+                        case 2: //bazooka
+                            if (BazookaBomb.bazookaVal <= 15.0f) BazookaBomb.bazookaVal = 0.0f;
+                            else BazookaBomb.bazookaVal -= 15.0f;
                             break;
                     }
                 }
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
     void UpgradeMachineGun()
     {
         MachinegunBullet.bulletDamage += 0.5f;
-        WeaponController.machineGunShotDelay -= 0.025f;
+        MachinegunBullet.machineGunShotDelay -= 0.025f;
     }
 
     void UpgradeShotGun()
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         BazookaBomb.bombDamage += 0.75f;
         BazookaBomb.splashDamage += 0.3f;
-        WeaponController.bazookaShotDelay -= 0.05f;
+        BazookaBomb.bazookaShotDelay -= 0.05f;
     }
 
     IEnumerator OnDamage()

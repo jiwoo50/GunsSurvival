@@ -36,20 +36,14 @@ public class ItemMove : MonoBehaviour
         position.x += speed * flagX * Time.deltaTime;
         position.y -= speed * flagY * Time.deltaTime;
 
-        if (position.x >= xMax || position.x <= xMin)
-        {
-            flagX = -flagX;
-        }
-        if (position.y >= yMax || position.y <= yMin)
-        {
-            flagY = -flagY;
-        }
-
+        if (position.x >= xMax || position.x <= xMin) flagX = -flagX;
+        if (position.y >= yMax || position.y <= yMin) flagY = -flagY;
+        
         rb2d.MovePosition(position);
 
         transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, rotate));
         rotate += 3.0f;
 
-        //Destroy(this.gameObject, exitenceTime);
+        Destroy(this.gameObject, exitenceTime);
     }
 }

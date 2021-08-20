@@ -15,14 +15,15 @@ public class ShotgunBullet : MonoBehaviour
     public Image shotgunGauge;
 
     public float bulletSpeed;
-    
+
     public int numOfBullets;
 
-    float flyingTime = 3.0f;
+    float flyingTime = 0.7f;
     float nextFire;
-    
+
     bool shotgunOverheat = false;
     bool isShotGauge = false;
+    bool gaugeDecrease = false;
 
     Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
 
@@ -36,24 +37,30 @@ public class ShotgunBullet : MonoBehaviour
     {
         if (GameController.Instance.canShoot && Input.GetMouseButton(0) && !PauseMenu.gamePaused)
         {
-            if (WeaponController.shotGun && Time.time > nextFire && !shotgunOverheat)
+            if (WeaponController.shotGun)
             {
-                nextFire = Time.time + shotDelay;
-                Shot();
-                isShotGauge = true;
-                if (shotVal < 100)
+                StopAllCoroutines();
+                if (Time.time > nextFire && !shotgunOverheat)
                 {
-                    shotVal += 8.0f;
-                    shotgunOverheat = false;
-                }
+                    nextFire = Time.time + shotDelay;
+                    Shot();
+                    isShotGauge = true;
+                    if (shotVal < 100)
+                    {
+                        shotVal += 8.0f;
+                        shotgunOverheat = false;
+                    }
 
-                float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z + 90);
-                float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z + 90);
-                bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x * cos - bulletSpawn.transform.position.y * sin;
-                bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
+                    float cos = Mathf.Cos(player.transform.rotation.eulerAngles.z + 90);
+                    float sin = Mathf.Sin(player.transform.rotation.eulerAngles.z + 90);
+                    bulletSpawn_ShiftToAngle.x = bulletSpawn.transform.position.x * cos - bulletSpawn.transform.position.y * sin;
+                    bulletSpawn_ShiftToAngle.y = bulletSpawn.transform.position.x * sin + bulletSpawn.transform.position.y * cos;
+                }
             }
         }
         else isShotGauge = false;
+
+        if (WeaponController.shotGun && Input.GetMouseButtonUp(0)) StartCoroutine(DecreaseGauge());
     }
     void Shot()
     {
@@ -82,12 +89,19 @@ public class ShotgunBullet : MonoBehaviour
         }
         else
         {
-            if (shotVal > 0)
+            if (shotVal > 0 && gaugeDecrease)
             {
                 shotVal -= WeaponController.gaugeSpeed * Time.deltaTime;
                 shotgunOverheat = false;
             }
         }
         shotgunGauge.fillAmount = shotVal / 100;
+    }
+
+    IEnumerator DecreaseGauge() //delay occurs when stop shooting
+    {
+        gaugeDecrease = false;
+        yield return new WaitForSeconds(2.0f); //delay : 2 seconds
+        gaugeDecrease = true;
     }
 }

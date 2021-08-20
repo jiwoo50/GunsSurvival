@@ -18,7 +18,7 @@ public class EnemyHP : MonoBehaviour
 
     void Start()
     {
-        if (this.gameObject.CompareTag("Rush")) HP = GameController.triangleHP;
+        if (this.gameObject.CompareTag("Rush")) HP = GameController.triangleHP; //monsters get more HP over time
         if (this.gameObject.CompareTag("Tracking")) HP = GameController.rectangleHP;
         if (this.gameObject.CompareTag("Divisive")) HP = GameController.pentagonHP;
     }
