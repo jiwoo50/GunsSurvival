@@ -7,6 +7,7 @@ public class ShotgunBullet : MonoBehaviour
 {
     public static float shotDamage = 4.0f;
     public static float shotDelay = 1.2f;
+    public static float shotVal = 0.0f;
 
     public GameObject bulletSpawn;
     public GameObject bullet;
@@ -19,8 +20,7 @@ public class ShotgunBullet : MonoBehaviour
 
     float flyingTime = 3.0f;
     float nextFire;
-    float shotVal = 0.0f;
-
+    
     bool shotgunOverheat = false;
     bool isShotGauge = false;
 

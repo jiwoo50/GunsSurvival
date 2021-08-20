@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class TrackingEnemyMove : MonoBehaviour
 {
-    public static int Tracking_damage = 10;
-    public float movePower = 5.0f;
+    public static float movePower = 0.0f;
 
     Rigidbody2D rb2d;
     Transform player;
@@ -22,7 +21,7 @@ public class TrackingEnemyMove : MonoBehaviour
     {
         if (searchTime <= 0.0f)
         {
-            Rush();
+            Tracking();
             searchTime = 0.5f;
         }
         if (searchTime > 0.0f)
@@ -31,12 +30,12 @@ public class TrackingEnemyMove : MonoBehaviour
         }
         if (Mathf.Abs(transform.position.y) >= 4.89f || Mathf.Abs(transform.position.x) >= 2.95f)
         {
-            Rush();
+            Tracking();
         }
 
     }
 
-    void Rush()
+    void Tracking()
     {
         if (!GameController.Instance.gameOver && player)
         {

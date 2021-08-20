@@ -18,12 +18,15 @@ public class GameController : MonoBehaviour
 
     public static int min = 0;
     public static float sec = 0.0f;
-    
+    public static float triangleHP = 10;
+    public static float rectangleHP = 15;
+    public static float pentagonHP = 25;
+
+    public float startWait = 3.0f;
+
     public bool gameOver = false;
     public bool startSpawn = false;
     public bool canShoot = false;
-
-    public float startWait = 3.0f;
 
     public Text gameoverText;
     public Text readyText;
@@ -33,29 +36,29 @@ public class GameController : MonoBehaviour
     public Text maxLevelText;
     public Text levelText;
 
+    int reinforceCnt;
+
     void Awake()
     {
         if (!instance) instance = this;
-        else Destroy(gameObject);
+        else Destroy(this.gameObject);
     }
     
     void Start()
-    {
+    { 
         StartCoroutine(ShowReadyText());
+        InvokeRepeating("ReinforceEnemy", startWait, 60.0f);
         PlayerHealth();
         PlayerLevel();
     }
 
     void Update()
     {
-        if(gameOver && Input.GetKeyDown("space"))
-        {
-            SceneManager.LoadScene("GameOverScene");
-        }
-        if(startSpawn && !gameOver) Timer();
-
-        if (PlayerController.achieveMaxLevel) ShowMaxLevelText();
+        if(gameOver && Input.GetKeyDown("space")) SceneManager.LoadScene("GameOverScene");
         if (PlayerController.completeUpgrade) upgradeText.gameObject.SetActive(false);
+        if (PlayerController.achieveMaxLevel) ShowMaxLevelText();
+        if (reinforceCnt >= 5) CancelInvoke("ReinforceEnemy"); //repeat 5 times
+        if (startSpawn && !gameOver) Timer();
     }
 
     public void PlayerDead()
@@ -115,5 +118,18 @@ public class GameController : MonoBehaviour
         }
         startSpawn = true;
         canShoot = true;
-    }    
+    }
+
+    void ReinforceEnemy() //every 1 minutes, enemies are reinforeced(get more HP, damage and speed)
+    {
+        ++reinforceCnt;
+        triangleHP += 3;
+        rectangleHP += 3;
+        pentagonHP += 3;
+        PlayerController.rushDamage += 1;
+        PlayerController.trackingDamage += 1;
+        PlayerController.divisiveEnemyDamage += 1;
+        TrackingEnemyMove.movePower += 0.5f;
+        RushMove.movePower += 0.5f;
+    }
 }

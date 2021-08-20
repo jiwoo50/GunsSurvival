@@ -17,6 +17,8 @@ TagManager:
   - Rush
   - HP10
   - HP05
+  - Divisive
+  - Gauge15
   layers:
   - Default
   - TransparentFX

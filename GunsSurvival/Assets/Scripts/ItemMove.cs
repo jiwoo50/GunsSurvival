@@ -50,6 +50,6 @@ public class ItemMove : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, rotate));
         rotate += 3.0f;
 
-        Destroy(this.gameObject, exitenceTime);
+        //Destroy(this.gameObject, exitenceTime);
     }
 }

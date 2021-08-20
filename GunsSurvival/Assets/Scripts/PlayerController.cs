@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     public static int currLevel = 0;
     public static int currHealth;
     public static int maxHealth = 30;
+    public static int rushDamage = 5;
+    public static int trackingDamage = 10;
+    public static int divisiveEnemyDamage = 15;
 
     public Boundary boundary;
     public GameObject explosionPrefab;
@@ -109,26 +112,55 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Rush"))
         {
-            ChangeHealth(-RushMove.Rush_damage);
+            ChangeHealth(-rushDamage);
         }
         if (collision.gameObject.CompareTag("Tracking"))
         {
-            ChangeHealth(-TrackingEnemyMove.Tracking_damage);
+            ChangeHealth(-trackingDamage);
+        }
+        if (collision.gameObject.CompareTag("Divisive"))
+        {
+            ChangeHealth(-divisiveEnemyDamage);
         }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("HP05"))
+        if (collision.gameObject.CompareTag("HP05")) //Health Potion
         {
             if (currHealth >= maxHealth) return;
             ChangeHealth(5);
         }
 
-        else if (collision.gameObject.CompareTag("HP10"))
+        else if (collision.gameObject.CompareTag("HP10")) //Health Potion
         {
             if (currHealth >= maxHealth) return;
             ChangeHealth(10);
+        }
+
+        else if (collision.gameObject.CompareTag("Gauge15")) //Recover Gauge
+        {
+            for(int i = 0; i < WeaponController.shootingWeapon.Length; i++) //0:machine, 1:shot, 3:bazooka
+            {
+                if (WeaponController.shootingWeapon[i])
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            if (WeaponController.machineVal <= 15.0f) WeaponController.machineVal = 0.0f;
+                            else WeaponController.machineVal -= 15.0f;
+                            break;
+                        case 1:
+                            if (ShotgunBullet.shotVal <= 15.0f) ShotgunBullet.shotVal = 0.0f;
+                            else ShotgunBullet.shotVal -= 15.0f;
+                            break;
+                        case 2:
+                            if (WeaponController.bazookaVal <= 15.0f) WeaponController.bazookaVal = 0.0f;
+                            else WeaponController.bazookaVal -= 15.0f;
+                            break;
+                    }
+                }
+            }
         }
 
         else return;

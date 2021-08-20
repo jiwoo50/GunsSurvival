@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class RushMove : MonoBehaviour
 {
-    public static int Rush_damage = 5;
-
-    public float movePower = 5.0f;
+    public static float movePower = 0.0f;
 
     Rigidbody2D rb2d;
     Transform player;

@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class WeaponController : MonoBehaviour
 {
     enum kindOfWeapons { isMachine = 0, isShot, isBazooka }
 
+    public static bool[] shootingWeapon = { false, false, false };
     public static bool shotGun = false;
     public static float gaugeSpeed = 8.0f;
     public static float machineGunShotDelay = 0.75f;
     public static float bazookaShotDelay = 1.5f;
+    public static float machineVal = 0.0f;
+    public static float bazookaVal = 0.0f;
 
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
     public GameObject[] projectile; //Machine Gun bullet, Shot Gun bullet, Bazooka bomb
@@ -21,10 +25,7 @@ public class WeaponController : MonoBehaviour
     
     float changeDelay = 1.0f;
     float nextFire;
-    float machineVal = 0.0f;
-    float bazookaVal = 0.0f;
 
-    bool[] shootingWeapon = { false, false, false };
     bool isSwitching = false;
     bool isMchineGauge = false;
     bool isBazookaeGauge = false;

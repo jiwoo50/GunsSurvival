@@ -6,22 +6,38 @@ public class EnemyHP : MonoBehaviour
 {
     public GameObject flamePrefab;
     public GameObject boomPrefab;
+    public GameObject RushEnemy;
 
     public GameObject[] items;
     public float[] percentage;
 
-    public float HP;
-
     float splashRadius = 1.0f;
+    float HP;
 
     bool splash = false;
+
+    void Start()
+    {
+        if (this.gameObject.CompareTag("Rush")) HP = GameController.triangleHP;
+        if (this.gameObject.CompareTag("Tracking")) HP = GameController.rectangleHP;
+        if (this.gameObject.CompareTag("Divisive")) HP = GameController.pentagonHP;
+    }
 
     void Update()
     {
         if (HP <= 0)
         {
-            if (this.gameObject.CompareTag("Rush")) PlayerController.exp += 1.0f;
-            if (this.gameObject.CompareTag("Tracking")) PlayerController.exp += 3.0f;
+            if (this.gameObject.CompareTag("Rush")) PlayerController.exp += 2.0f;
+            if (this.gameObject.CompareTag("Tracking")) PlayerController.exp += 5.0f;
+            if (this.gameObject.CompareTag("Divisive"))
+            {
+                PlayerController.exp += 10.0f;
+                for(int i = 0; i < 3; i++)
+                {
+                    Instantiate(RushEnemy, GetRandomPos(), Quaternion.identity);
+                }
+            }
+
             Destroy(this.gameObject);
             GameObject boom = Instantiate(boomPrefab, this.gameObject.transform.position, Quaternion.identity) as GameObject;
             Destroy(boom, 1.0f);
@@ -100,5 +116,23 @@ public class EnemyHP : MonoBehaviour
             }
         }
         return percentage.Length - 1;
+    }
+
+    Vector3 GetRandomPos()
+    {
+        float radius = 0.5f;
+        Vector3 pos = this.transform.position;
+
+        float a = pos.x;
+        float b = pos.y;
+
+        float x = Random.Range(-radius + a, radius + a);
+        float y_val = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(x - a, 2));
+        y_val *= Random.Range(0, 2) == 0 ? -1 : 1; //양수, 음수 결정
+        float y = y_val + b;
+
+        Vector3 randomPos = new Vector3(x, y, 0);
+
+        return randomPos;
     }
 }
