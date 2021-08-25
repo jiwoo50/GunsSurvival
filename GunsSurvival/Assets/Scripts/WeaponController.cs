@@ -15,7 +15,7 @@ public class WeaponController : MonoBehaviour
 
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
 
-    float changeDelay = 1.0f;
+    float changeDelay = 1.25f;
     bool isSwitching = false;
     int cnt = 0;
 
@@ -29,8 +29,10 @@ public class WeaponController : MonoBehaviour
         shotGun = shootingWeapon[(int)kindOfWeapons.isShot];
         machineGun = shootingWeapon[(int)kindOfWeapons.isMachine];
         bazooka = shootingWeapon[(int)kindOfWeapons.isBazooka];
-        if (Input.GetKeyDown(KeyCode.Space) && !isSwitching)
+
+        if (GameController.Instance.canShoot && Input.GetKeyDown(KeyCode.Space) && !isSwitching)
         {
+            SoundController.Instance.PlayReloadSound();
             ++cnt;
             if (cnt >= guns.Length) cnt = 0;
             StartCoroutine(SwitchDelay(cnt));

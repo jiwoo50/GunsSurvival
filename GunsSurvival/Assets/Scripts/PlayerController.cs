@@ -11,17 +11,21 @@ public class Boundary
 }
 
 public class PlayerController : MonoBehaviour
-{ 
+{
     public static float exp = 0.0f;
+    public static float currMachineDmg = 7.0f;
+    public static float currMachineDelay = 0.75f;
+    public static float currShotgunDmg = 4.0f;
+    public static float currShotgunDelay = 1.2f;
+    public static float currBazookaDmg = 15.0f;
+    public static float currSplashDmg = 4.0f;
+    public static float currBazookaDelay = 1.5f;
     public static bool achieveMaxLevel = false;
     public static bool completeUpgrade = false;
     public static int currLevel = 0;
     public static int currHealth;
     public static int maxHealth = 30;
-    public static int rushDamage = 5;
-    public static int trackingDamage = 10;
-    public static int divisiveEnemyDamage = 15;
-
+  
     public Boundary boundary;
     public GameObject explosionPrefab;
     public Image expBar;
@@ -31,10 +35,17 @@ public class PlayerController : MonoBehaviour
 
     float horizontal, vertical;
     float angle;
+    float machineDmg = 7.0f;
+    float machineDelay = 0.75f;
+    float shotDmg = 4.0f;
+    float shotDelay = 1.2f;
+    float bazookaDmg = 15.0f;
+    float splashDmg = 4.0f;
+    float bazookaDelay = 1.5f;
 
     bool isInvincible = false;
-    bool chooseUpgrade = false;
-    
+    bool choosingUpgrade = false;
+
     int maxLevel = 10;
 
     Rigidbody2D rb2d;
@@ -44,16 +55,14 @@ public class PlayerController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         render = gameObject.GetComponent<Renderer>();
-        currHealth = maxHealth;
+        Initialize();
 
-        GameController.Instance.ScoreReset();
+        GameController.Instance.ResetScore();
+        GameController.Instance.InitializeGame();
     }
 
     void Update()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-
         if (!PauseMenu.gamePaused)
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -61,34 +70,41 @@ public class PlayerController : MonoBehaviour
             gameObject.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
         }
 
-        if (chooseUpgrade)
+        if (choosingUpgrade)
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 UpgradeMachineGun();
                 completeUpgrade = true;
+                choosingUpgrade = false;
+                exp = 0;
+                ++currLevel;
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
                 UpgradeShotGun();
                 completeUpgrade = true;
+                choosingUpgrade = false;
+                exp = 0;
+                ++currLevel;
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
                 UpgradeBazooka();
                 completeUpgrade = true;
+                choosingUpgrade = false; 
+                exp = 0;
+                ++currLevel;
             }
         }
 
-        if(currLevel == maxLevel)
+        if (currLevel == maxLevel)
         {
             expBar.fillAmount = 1.0f;
             achieveMaxLevel = true;
-            chooseUpgrade = false;
-            completeUpgrade = true;
         }
 
-        if (!achieveMaxLevel) GetEXP();
+        if (!achieveMaxLevel && !choosingUpgrade) GetEXP();
     }
 
     void FixedUpdate()
@@ -96,8 +112,23 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
+    void Initialize()
+    {
+        currHealth = maxHealth;
+        currMachineDmg = machineDmg;
+        currMachineDelay = machineDelay;
+        currShotgunDmg = shotDmg;
+        currShotgunDelay = shotDelay;
+        currBazookaDmg = bazookaDmg;
+        currBazookaDelay = bazookaDelay;
+        currSplashDmg = splashDmg;
+    }
+
     void Move()
     {
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
         Vector2 position = rb2d.position;
         position.x += speed * horizontal * Time.deltaTime;
         position.y += speed * vertical * Time.deltaTime;
@@ -112,15 +143,15 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Rush"))
         {
-            ChangeHealth(-rushDamage);
+            ChangeHealth(-GameController.Instance.currRushDmg);
         }
         if (collision.gameObject.CompareTag("Tracking"))
         {
-            ChangeHealth(-trackingDamage);
+            ChangeHealth(-GameController.Instance.currTrackingDmg);
         }
         if (collision.gameObject.CompareTag("Divisive"))
         {
-            ChangeHealth(-divisiveEnemyDamage);
+            ChangeHealth(-GameController.Instance.currDivisiveDmg);
         }
     }
 
@@ -140,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Gauge15")) //Recover Gauge
         {
-            for(int i = 0; i < WeaponController.shootingWeapon.Length; i++)
+            for (int i = 0; i < WeaponController.shootingWeapon.Length; i++)
             {
                 if (WeaponController.shootingWeapon[i])
                 {
@@ -164,6 +195,7 @@ public class PlayerController : MonoBehaviour
         }
 
         else return;
+        SoundController.Instance.PlayGetItemSound();
         Destroy(collision.gameObject);
     }
 
@@ -187,13 +219,11 @@ public class PlayerController : MonoBehaviour
 
     void GetEXP()
     {
-        if (exp >= 100 && currLevel < maxLevel)
+        if (exp >= 5 && currLevel < maxLevel)
         {
             completeUpgrade = false;
+            choosingUpgrade = true;
             GameController.Instance.ShowUpgradeText();
-            chooseUpgrade = true;
-            exp = 0;
-            ++currLevel;
             GameController.Instance.PlayerLevel();
         }
         expBar.fillAmount = exp / 100;
@@ -201,21 +231,21 @@ public class PlayerController : MonoBehaviour
 
     void UpgradeMachineGun()
     {
-        MachinegunBullet.bulletDamage += 0.5f;
-        MachinegunBullet.machineGunShotDelay -= 0.025f;
+        currMachineDmg += 0.5f;
+        currMachineDelay -= 0.025f;
     }
 
     void UpgradeShotGun()
     {
-        ShotgunBullet.shotDamage += 0.5f;
-        ShotgunBullet.shotDelay -= 0.05f;
+        currShotgunDmg += 0.5f;
+        currShotgunDelay -= 0.05f;
     }
 
     void UpgradeBazooka()
     {
-        BazookaBomb.bombDamage += 0.75f;
-        BazookaBomb.splashDamage += 0.3f;
-        BazookaBomb.bazookaShotDelay -= 0.05f;
+        currBazookaDmg += 0.75f;
+        currSplashDmg += 0.3f;
+        currBazookaDelay -= 0.05f;
     }
 
     IEnumerator OnDamage()

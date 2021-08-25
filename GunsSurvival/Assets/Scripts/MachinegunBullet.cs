@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class MachinegunBullet : MonoBehaviour
 {
-    public static float bulletDamage = 7.0f;
-    public static float machineGunShotDelay = 0.75f;
     public static float machineVal = 0.0f;
 
     public GameObject player;
@@ -23,6 +21,11 @@ public class MachinegunBullet : MonoBehaviour
     bool isMachineGauge = false;
     bool machineGaugeDecrease = false;
 
+    void Start()
+    {
+        machineVal = 0.0f;
+    }
+
     void Update()
     {
         FireMachineGun();
@@ -38,7 +41,7 @@ public class MachinegunBullet : MonoBehaviour
                 StopAllCoroutines();
                 if (Time.time > nextFire && !machineOverheat)
                 {
-                    nextFire = Time.time + machineGunShotDelay;
+                    nextFire = Time.time + PlayerController.currMachineDelay;
                     Shot();
                     isMachineGauge = true;
                     if (machineVal < 100)

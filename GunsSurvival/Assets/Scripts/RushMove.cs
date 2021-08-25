@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class RushMove : MonoBehaviour
 {
-    public static float movePower = 0.0f;
-
     Rigidbody2D rb2d;
     Transform player;
 
@@ -32,9 +30,8 @@ public class RushMove : MonoBehaviour
         {
             Vector3 dir = player.position - transform.position;
             dir.Normalize();
-            rb2d.AddForce(dir * movePower, ForceMode2D.Impulse);
+            rb2d.AddForce(dir * GameController.Instance.currRushSpeed, ForceMode2D.Impulse);
             isRush = false;
         }
-
     }
 }

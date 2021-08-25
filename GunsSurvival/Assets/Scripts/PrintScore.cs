@@ -14,6 +14,7 @@ public class PrintScore : MonoBehaviour
 
     void Awake()
     {
+        //PlayerPrefs.DeleteAll();
         Initialize();
     }
 

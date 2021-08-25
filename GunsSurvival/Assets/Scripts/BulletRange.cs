@@ -10,7 +10,7 @@ public class BulletRange : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Boundary"))
+        if (collision.gameObject.CompareTag("Boundary"))
         {
             Destroy(gameObject);
         }

@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 3995433590204032780}
   - component: {fileID: 3995433590204032781}
   - component: {fileID: 3995433590204032777}
-  - component: {fileID: 1381611013034353443}
+  - component: {fileID: 4173237922574257344}
   m_Layer: 0
   m_Name: Pentagon
-  m_TagString: Untagged
+  m_TagString: Divisive
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013675d7e3287ae47b2e84f0237f01bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 25
   flamePrefab: {fileID: 6886706478255997202, guid: 9f94f4d9ab1c1c247af62abbb63498fc,
     type: 3}
   boomPrefab: {fileID: 2918271166182000362, guid: 76da42c5101e8144fb3af4056c6bcead,
@@ -145,9 +144,9 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!68 &1381611013034353443
-EdgeCollider2D:
+  m_Constraints: 4
+--- !u!60 &4173237922574257344
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -160,11 +159,46 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5882353, y: 0.5372549}
+    newSize: {x: 0.5882353, y: 0.5372549}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Points:
-  - {x: -0.18250987, y: -0.26971865}
-  - {x: -0.29299808, y: 0.06288314}
-  - {x: 0.0020878315, y: 0.27126884}
-  - {x: 0.29309845, y: 0.0588665}
-  - {x: 0.18252897, y: -0.27050066}
-  - {x: -0.1848655, y: -0.27126884}
+    m_Paths:
+    - - {x: 0.2392157, y: -0.12352942}
+      - {x: 0.2509804, y: -0.08039216}
+      - {x: 0.25882354, y: -0.068627454}
+      - {x: 0.29411766, y: 0.037254903}
+      - {x: 0.29411766, y: 0.07254902}
+      - {x: 0.26666668, y: 0.092156865}
+      - {x: 0.24313727, y: 0.107843146}
+      - {x: 0.227451, y: 0.11960785}
+      - {x: 0.20392159, y: 0.13529412}
+      - {x: 0.18039216, y: 0.15490197}
+      - {x: 0.12941177, y: 0.1901961}
+      - {x: 0.098039225, y: 0.20980394}
+      - {x: 0.0627451, y: 0.23725492}
+      - {x: 0.03529412, y: 0.2529412}
+      - {x: 0.015686275, y: 0.26862746}
+      - {x: -0.015686275, y: 0.26862746}
+      - {x: -0.03529412, y: 0.2529412}
+      - {x: -0.078431375, y: 0.22549021}
+      - {x: -0.10196079, y: 0.20980394}
+      - {x: -0.1137255, y: 0.19803923}
+      - {x: -0.14117648, y: 0.18235295}
+      - {x: -0.18039216, y: 0.15490197}
+      - {x: -0.23137257, y: 0.11960785}
+      - {x: -0.27058825, y: 0.092156865}
+      - {x: -0.29411766, y: 0.068627454}
+      - {x: -0.29411766, y: 0.029411767}
+      - {x: -0.28627452, y: 0.013725491}
+      - {x: -0.27450982, y: -0.021568628}
+      - {x: -0.19607845, y: -0.2529412}
+      - {x: -0.18823531, y: -0.26862746}
+      - {x: 0.18823531, y: -0.26862746}
+      - {x: 0.19215688, y: -0.2647059}

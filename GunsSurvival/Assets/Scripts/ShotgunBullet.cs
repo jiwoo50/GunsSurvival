@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class ShotgunBullet : MonoBehaviour
 {
-    public static float shotDamage = 4.0f;
-    public static float shotDelay = 1.2f;
     public static float shotVal = 0.0f;
 
     public GameObject bulletSpawn;
@@ -27,6 +25,11 @@ public class ShotgunBullet : MonoBehaviour
 
     Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
 
+    void Start()
+    {
+        shotVal = 0.0f;
+    }
+
     void Update()
     {
         FireShotgun();
@@ -42,7 +45,7 @@ public class ShotgunBullet : MonoBehaviour
                 StopAllCoroutines();
                 if (Time.time > nextFire && !shotgunOverheat)
                 {
-                    nextFire = Time.time + shotDelay;
+                    nextFire = Time.time + PlayerController.currShotgunDelay;
                     Shot();
                     isShotGauge = true;
                     if (shotVal < 100)

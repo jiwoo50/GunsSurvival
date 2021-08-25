@@ -18,9 +18,9 @@ public class EnemyHP : MonoBehaviour
 
     void Start()
     {
-        if (this.gameObject.CompareTag("Rush")) HP = GameController.triangleHP; //monsters get more HP over time
-        if (this.gameObject.CompareTag("Tracking")) HP = GameController.rectangleHP;
-        if (this.gameObject.CompareTag("Divisive")) HP = GameController.pentagonHP;
+        if (this.gameObject.CompareTag("Rush")) HP = GameController.Instance.currTriangleHP; //monsters get more HP over time
+        if (this.gameObject.CompareTag("Tracking")) HP = GameController.Instance.currRectangleHP;
+        if (this.gameObject.CompareTag("Divisive")) HP = GameController.Instance.currPentagonHP;
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class EnemyHP : MonoBehaviour
             if (this.gameObject.CompareTag("Divisive"))
             {
                 PlayerController.exp += 10.0f;
-                for(int i = 0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     Instantiate(RushEnemy, GetRandomPos(), Quaternion.identity);
                 }
@@ -53,8 +53,9 @@ public class EnemyHP : MonoBehaviour
             {
                 if (hit.gameObject.CompareTag("Rush") || hit.gameObject.CompareTag("Tracking"))
                 {
-                    hit.gameObject.GetComponent<EnemyHP>().Damage(BazookaBomb.splashDamage);
-                    if(hit.gameObject.GetComponent<EnemyHP>().HP > 0){
+                    hit.gameObject.GetComponent<EnemyHP>().Damage(PlayerController.currSplashDmg);
+                    if (hit.gameObject.GetComponent<EnemyHP>().HP > 0)
+                    {
                         GameObject flame = Instantiate(flamePrefab, hit.transform.position, Quaternion.identity) as GameObject;
                         Destroy(flame, 0.8f);
                     }
@@ -66,26 +67,21 @@ public class EnemyHP : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("machineGunBullet"))
-        {
-            Damage(MachinegunBullet.bulletDamage);
-        }
+        if (collision.CompareTag("machineGunBullet")) Damage(PlayerController.currMachineDmg);
 
         else if (collision.CompareTag("bazookaBomb"))
         {
-            Damage(BazookaBomb.bombDamage);
+            Damage(PlayerController.currBazookaDmg);
             splash = true;
         }
 
-        else if (collision.CompareTag("shotGunBullet"))
-        {
-            Damage(ShotgunBullet.shotDamage);
-        }
+        else if (collision.CompareTag("shotGunBullet")) Damage(PlayerController.currShotgunDmg);
 
         else return;
         Destroy(collision.gameObject);
 
-        if(HP > 0){
+        if (HP > 0)
+        {
             GameObject flame = Instantiate(flamePrefab, transform.position, Quaternion.identity) as GameObject;
             Destroy(flame, 0.8f);
         }
@@ -103,6 +99,7 @@ public class EnemyHP : MonoBehaviour
         {
             total += elem;
         }
+
         float randomPoint = Random.value * total;
         for (int i = 0; i < percentage.Length; i++)
         {

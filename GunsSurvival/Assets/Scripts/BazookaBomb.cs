@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class BazookaBomb : MonoBehaviour
 {
-    public static float bombDamage = 15.0f;
-    public static float splashDamage = 4.0f;
-    public static float bazookaShotDelay = 1.5f;
     public static float bazookaVal = 0.0f;
 
     public GameObject player;
@@ -24,6 +21,11 @@ public class BazookaBomb : MonoBehaviour
     bool isBazookaeGauge = false;
     bool bazookaGaugeDecrease = false;
 
+    void Start()
+    {
+        bazookaVal = 0.0f;
+    }
+
     void Update()
     {
         FireBazooka();
@@ -39,7 +41,7 @@ public class BazookaBomb : MonoBehaviour
                 StopAllCoroutines();
                 if (Time.time > nextFire && !bazookaOverheat)
                 {
-                    nextFire = Time.time + bazookaShotDelay;
+                    nextFire = Time.time + PlayerController.currBazookaDelay;
                     Shot();
                     isBazookaeGauge = true;
                     if (bazookaVal < 100)
@@ -58,6 +60,7 @@ public class BazookaBomb : MonoBehaviour
     void Shot()
     {
         GameObject bazookaBomb = Instantiate(bomb, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+        SoundController.Instance.PlayBazookaSound();
         Rigidbody2D rb2d = bazookaBomb.GetComponent<Rigidbody2D>();
         rb2d.AddForce(this.gameObject.transform.up * bombSpeed, ForceMode2D.Impulse);
 
