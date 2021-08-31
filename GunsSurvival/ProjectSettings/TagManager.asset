@@ -19,6 +19,8 @@ TagManager:
   - HP05
   - Divisive
   - Gauge15
+  - moveJoystick
+  - rotateJoystick
   layers:
   - Default
   - TransparentFX

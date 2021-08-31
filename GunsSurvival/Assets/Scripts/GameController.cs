@@ -16,18 +16,23 @@ public class GameController : MonoBehaviour
     }
     private static GameController instance = null;
 
-    public static int min = 0;
     public static float sec = 0.0f;
+    public static float currTriangleHP = 10.0f;
+    public static float currRectangleHP = 15.0f;
+    public static float currPentagonHP = 25.0f;
+    public static float currTrackingSpeed = 2.0f;
+    public static float currRushSpeed = 2.0f;
+    public static int currRushDmg = 5;
+    public static int currTrackingDmg = 10;
+    public static int currDivisiveDmg = 15;
+    public static int maxEnemy = 15;
+    public static int min = 0;
 
-    public float currTriangleHP = 10.0f;
-    public float currRectangleHP = 15.0f;
-    public float currPentagonHP = 25.0f;
-    public float currTrackingSpeed = 0.0f;
-    public float currRushSpeed = 0.0f;
-    public int currRushDmg = 5;
-    public int currTrackingDmg = 10;
-    public int currDivisiveDmg = 15;
-    public int maxEnemy = 15;
+    public float triangleHP = 10.0f;
+    public float rectangleHP = 15.0f;
+    public float pentagonHP = 25.0f;
+    public float rushSpeed = 2.0f;
+    public float trackingSpeed = 2.0f;
 
     public bool gameOver = false;
     public bool startSpawn = false;
@@ -41,17 +46,12 @@ public class GameController : MonoBehaviour
     public Text maxLevelText;
     public Text levelText;
 
-    float triangleHP = 10.0f;
-    float rectangleHP = 15.0f;
-    float pentagonHP = 25.0f;
-    float rushSpeed = 2.0f;
-    float trackingSpeed = 2.0f;
+    public int rushDmg = 5;
+    public int trackingDmg = 10;
+    public int divisiveDmg = 15;
+    public int maxEnemyCnt = 15;
 
     int reinforceCnt;
-    int rushDmg = 5;
-    int trackingDmg = 10;
-    int divisiveDmg = 15;
-    int maxEnemyCnt = 15;
 
     void Awake()
     {
@@ -68,7 +68,8 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if(gameOver && Input.GetKeyDown("space")) SceneManager.LoadScene("GameOverScene");
+        if(gameOver && Input.GetKeyDown(KeyCode.Space)) SceneManager.LoadScene("GameOverScene");
+        if (PlayerController.choosingUpgrade) upgradeText.gameObject.SetActive(true);
         if (PlayerController.completeUpgrade) upgradeText.gameObject.SetActive(false);
         if (PlayerController.achieveMaxLevel) ShowMaxLevelText();
         if (reinforceCnt >= 5) CancelInvoke("ReinforceEnemy"); //repeat 5 times
@@ -110,19 +111,12 @@ public class GameController : MonoBehaviour
             PlayerController.achieveMaxLevel = false;
             maxLevelText.gameObject.SetActive(false);
         }
-        for (int i = 0; i < WeaponController.shootingWeapon.Length; i++) WeaponController.shootingWeapon[i] = false;
-        WeaponController.shootingWeapon[0] = true; //machine gun is shootable
     }
 
     public void ResetScore()
     {
         min = 0;
         sec = 0.0f;
-    }
-
-    public void ShowUpgradeText()
-    {
-        upgradeText.gameObject.SetActive(true);
     }
 
    public void PlayerLevel()

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BazookaBomb : MonoBehaviour
 {
-    public static float bazookaVal = 0.0f;
+    public static float bazookaGaugeVal = 0.0f;
 
     public GameObject player;
     public GameObject bulletSpawn;
@@ -23,7 +23,7 @@ public class BazookaBomb : MonoBehaviour
 
     void Start()
     {
-        bazookaVal = 0.0f;
+        bazookaGaugeVal = 0.0f;
     }
 
     void Update()
@@ -34,7 +34,7 @@ public class BazookaBomb : MonoBehaviour
     
     void FireBazooka()
     {
-        if (GameController.Instance.canShoot && Input.GetMouseButton(0) && !PauseMenu.gamePaused)
+        if (GameController.Instance.canShoot && JoystickController.fireBullets && !PauseMenu.gamePaused)
         {
             if (WeaponController.bazooka)
             {
@@ -44,9 +44,9 @@ public class BazookaBomb : MonoBehaviour
                     nextFire = Time.time + PlayerController.currBazookaDelay;
                     Shot();
                     isBazookaeGauge = true;
-                    if (bazookaVal < 100)
+                    if (bazookaGaugeVal < 100)
                     {
-                        bazookaVal += 10.0f;
+                        bazookaGaugeVal += 10.0f;
                         bazookaOverheat = false;
                     }
                 }
@@ -54,7 +54,7 @@ public class BazookaBomb : MonoBehaviour
         }
         else isBazookaeGauge = false;
 
-        if (WeaponController.bazooka && Input.GetMouseButtonUp(0)) StartCoroutine(BazookaGaugeDecrease());
+        if (WeaponController.bazooka && !JoystickController.fireBullets) StartCoroutine(BazookaGaugeDecrease());
     }
 
     void Shot()
@@ -71,17 +71,17 @@ public class BazookaBomb : MonoBehaviour
     {
         if (GameController.Instance.canShoot && isBazookaeGauge)
         {
-            if (bazookaVal >= 91) bazookaOverheat = true;
+            if (bazookaGaugeVal >= 91) bazookaOverheat = true;
         }
         else
         {
-            if (bazookaVal > 0 && bazookaGaugeDecrease)
+            if (bazookaGaugeVal > 0 && bazookaGaugeDecrease)
             {
-                bazookaVal -= WeaponController.gaugeSpeed * Time.deltaTime;
+                bazookaGaugeVal -= WeaponController.gaugeSpeed * Time.deltaTime;
                 bazookaOverheat = false;
             }
         }
-        bazookaGauge.fillAmount = bazookaVal / 100;
+        bazookaGauge.fillAmount = bazookaGaugeVal / 100;
     }
 
     IEnumerator BazookaGaugeDecrease() //delay occurs when stop shooting

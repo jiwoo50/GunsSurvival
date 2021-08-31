@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MachinegunBullet : MonoBehaviour
 {
-    public static float machineVal = 0.0f;
+    public static float machineGunGaugeVal = 0.0f;
 
     public GameObject player;
     public GameObject bulletSpawn;
@@ -23,7 +23,7 @@ public class MachinegunBullet : MonoBehaviour
 
     void Start()
     {
-        machineVal = 0.0f;
+        machineGunGaugeVal = 0.0f;
     }
 
     void Update()
@@ -34,7 +34,7 @@ public class MachinegunBullet : MonoBehaviour
 
     void FireMachineGun()
     {
-        if (GameController.Instance.canShoot && Input.GetMouseButton(0) && !PauseMenu.gamePaused)
+        if (GameController.Instance.canShoot && JoystickController.fireBullets && !PauseMenu.gamePaused)
         {
             if (WeaponController.machineGun)
             {
@@ -44,9 +44,9 @@ public class MachinegunBullet : MonoBehaviour
                     nextFire = Time.time + PlayerController.currMachineDelay;
                     Shot();
                     isMachineGauge = true;
-                    if (machineVal < 100)
+                    if (machineGunGaugeVal < 100)
                     {
-                        machineVal += 2.0f;
+                        machineGunGaugeVal += 2.0f;
                         machineOverheat = false;
                     }
                 }
@@ -54,7 +54,7 @@ public class MachinegunBullet : MonoBehaviour
         }
         else isMachineGauge = false;
 
-        if (WeaponController.machineGun && Input.GetMouseButtonUp(0)) StartCoroutine(MachineGaugeDecrease());
+        if (WeaponController.machineGun && !JoystickController.fireBullets) StartCoroutine(MachineGaugeDecrease());
     }
 
     void Shot()
@@ -70,17 +70,17 @@ public class MachinegunBullet : MonoBehaviour
     {
         if (GameController.Instance.canShoot && isMachineGauge)
         {
-            if (machineVal >= 100) machineOverheat = true;
+            if (machineGunGaugeVal >= 100) machineOverheat = true;
         }
         else
         {
-            if (machineVal > 0 && machineGaugeDecrease)
+            if (machineGunGaugeVal > 0 && machineGaugeDecrease)
             {
-                machineVal -= WeaponController.gaugeSpeed * Time.deltaTime;
+                machineGunGaugeVal -= WeaponController.gaugeSpeed * Time.deltaTime;
                 machineOverheat = false;
             }
         }
-        machineGauge.fillAmount = machineVal / 100;
+        machineGauge.fillAmount = machineGunGaugeVal / 100;
     }
     IEnumerator MachineGaugeDecrease() //delay occurs when stop shooting
     {

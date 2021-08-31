@@ -39,7 +39,7 @@ public class TrackingEnemyMove : MonoBehaviour
             rb2d.velocity = Vector3.zero;
             Vector3 dir = player.position - transform.position;
             dir.Normalize();
-            rb2d.AddForce(dir * GameController.Instance.currTrackingSpeed, ForceMode2D.Impulse);
+            rb2d.AddForce(dir * GameController.currTrackingSpeed, ForceMode2D.Impulse);
         }
     }
 }

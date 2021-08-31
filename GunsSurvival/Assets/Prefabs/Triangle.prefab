@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5713302154997024500}
   - component: {fileID: 5713302154997024502}
   - component: {fileID: 5713302154997024507}
-  - component: {fileID: -2730152740247405659}
+  - component: {fileID: 7296432196885367898}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Rush
@@ -130,7 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013675d7e3287ae47b2e84f0237f01bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
   flamePrefab: {fileID: 6886706478255997202, guid: 9f94f4d9ab1c1c247af62abbb63498fc,
     type: 3}
   boomPrefab: {fileID: 2918271166182000362, guid: 76da42c5101e8144fb3af4056c6bcead,
@@ -145,7 +144,7 @@ MonoBehaviour:
   - 10
   - 15
   - 70
---- !u!60 &-2730152740247405659
+--- !u!60 &7296432196885367898
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,7 +154,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -170,13 +169,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.046576213, y: 0.2746997}
+    - - {x: 0.057692308, y: 0.2769231}
       - {x: 0.011538462, y: 0.33846155}
-      - {x: -0.008114332, y: 0.33401468}
-      - {x: -0.04435279, y: 0.2690528}
-      - {x: -0.36196047, y: -0.22650105}
-      - {x: -0.41358355, y: -0.31436193}
+      - {x: -0.01923077, y: 0.33846155}
+      - {x: -0.057692308, y: 0.2846154}
+      - {x: -0.37307692, y: -0.21538462}
+      - {x: -0.42692307, y: -0.30769232}
       - {x: -0.42692307, y: -0.33846155}
       - {x: 0.42692307, y: -0.33846155}
-      - {x: 0.40913704, y: -0.3044462}
-      - {x: 0.357514, y: -0.22205488}
+      - {x: 0.42692307, y: -0.3}
+      - {x: 0.37307692, y: -0.21538462}

@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public static float currSplashDmg = 4.0f;
     public static float currBazookaDelay = 1.5f;
     public static bool achieveMaxLevel = false;
+    public static bool choosingUpgrade = false;
     public static bool completeUpgrade = false;
     public static int currLevel = 0;
     public static int currHealth;
@@ -30,11 +31,9 @@ public class PlayerController : MonoBehaviour
     public GameObject explosionPrefab;
     public Image expBar;
 
-    public float speed;
+    public float moveSpeed = 5.0f;
     public float timeInvincible = 2.0f;
 
-    float horizontal, vertical;
-    float angle;
     float machineDmg = 7.0f;
     float machineDelay = 0.75f;
     float shotDmg = 4.0f;
@@ -44,7 +43,7 @@ public class PlayerController : MonoBehaviour
     float bazookaDelay = 1.5f;
 
     bool isInvincible = false;
-    bool choosingUpgrade = false;
+    
 
     int maxLevel = 10;
 
@@ -54,7 +53,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        render = gameObject.GetComponent<Renderer>();
+        render = this.gameObject.GetComponent<Renderer>();
         Initialize();
 
         GameController.Instance.ResetScore();
@@ -63,41 +62,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!PauseMenu.gamePaused)
-        {
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            angle = Mathf.Atan2(mouse.y - gameObject.transform.position.y, mouse.x - gameObject.transform.position.x) * Mathf.Rad2Deg;
-            gameObject.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        }
-
-        if (choosingUpgrade)
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                UpgradeMachineGun();
-                completeUpgrade = true;
-                choosingUpgrade = false;
-                exp = 0;
-                ++currLevel;
-            }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                UpgradeShotGun();
-                completeUpgrade = true;
-                choosingUpgrade = false;
-                exp = 0;
-                ++currLevel;
-            }
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                UpgradeBazooka();
-                completeUpgrade = true;
-                choosingUpgrade = false; 
-                exp = 0;
-                ++currLevel;
-            }
-        }
-
         if (currLevel == maxLevel)
         {
             expBar.fillAmount = 1.0f;
@@ -105,11 +69,6 @@ public class PlayerController : MonoBehaviour
         }
 
         if (!achieveMaxLevel && !choosingUpgrade) GetEXP();
-    }
-
-    void FixedUpdate()
-    {
-        Move();
     }
 
     void Initialize()
@@ -124,35 +83,47 @@ public class PlayerController : MonoBehaviour
         currSplashDmg = splashDmg;
     }
 
-    void Move()
+    void FinishUpgrade()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        completeUpgrade = true;
+        choosingUpgrade = false;
+        exp = 0;
+        ++currLevel;
+    }
 
-        Vector2 position = rb2d.position;
-        position.x += speed * horizontal * Time.deltaTime;
-        position.y += speed * vertical * Time.deltaTime;
+    public void PlayerMove(Vector3 pos)
+    {
+        Vector2 position = this.transform.position;
+        position.x += pos.x * moveSpeed * Time.deltaTime;
+        position.y += pos.y * moveSpeed * Time.deltaTime;
 
         position.x = Mathf.Clamp(position.x, boundary.xMin, boundary.xMax);
         position.y = Mathf.Clamp(position.y, boundary.yMin, boundary.yMax);
 
-        rb2d.MovePosition(position);
+        this.transform.position = position;
+    }
+
+    public void PlayerRotate(Vector2 pos)
+    {
+        float theta = Mathf.Atan2(pos.x, pos.y) * Mathf.Rad2Deg;
+        this.gameObject.transform.eulerAngles = new Vector3(0.0f, 0.0f, -theta);
     }
 
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Rush"))
         {
-            ChangeHealth(-GameController.Instance.currRushDmg);
+            ChangeHealth(-GameController.currRushDmg);
         }
         if (collision.gameObject.CompareTag("Tracking"))
         {
-            ChangeHealth(-GameController.Instance.currTrackingDmg);
+            ChangeHealth(-GameController.currTrackingDmg);
         }
         if (collision.gameObject.CompareTag("Divisive"))
         {
-            ChangeHealth(-GameController.Instance.currDivisiveDmg);
+            ChangeHealth(-GameController.currDivisiveDmg);
         }
+        else return;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -178,16 +149,16 @@ public class PlayerController : MonoBehaviour
                     switch (i)
                     {
                         case 0: //machine gun
-                            if (MachinegunBullet.machineVal <= 15.0f) MachinegunBullet.machineVal = 0.0f;
-                            else MachinegunBullet.machineVal -= 15.0f;
+                            if (MachinegunBullet.machineGunGaugeVal <= 15.0f) MachinegunBullet.machineGunGaugeVal = 0.0f;
+                            else MachinegunBullet.machineGunGaugeVal -= 15.0f;
                             break;
                         case 1: //shot gun
-                            if (ShotgunBullet.shotVal <= 15.0f) ShotgunBullet.shotVal = 0.0f;
-                            else ShotgunBullet.shotVal -= 15.0f;
+                            if (ShotgunBullet.shotGunGaugeVal <= 15.0f) ShotgunBullet.shotGunGaugeVal = 0.0f;
+                            else ShotgunBullet.shotGunGaugeVal -= 15.0f;
                             break;
                         case 2: //bazooka
-                            if (BazookaBomb.bazookaVal <= 15.0f) BazookaBomb.bazookaVal = 0.0f;
-                            else BazookaBomb.bazookaVal -= 15.0f;
+                            if (BazookaBomb.bazookaGaugeVal <= 15.0f) BazookaBomb.bazookaGaugeVal = 0.0f;
+                            else BazookaBomb.bazookaGaugeVal -= 15.0f;
                             break;
                     }
                 }
@@ -219,33 +190,35 @@ public class PlayerController : MonoBehaviour
 
     void GetEXP()
     {
-        if (exp >= 5 && currLevel < maxLevel)
+        if (exp >= 1 && currLevel < maxLevel)
         {
             completeUpgrade = false;
             choosingUpgrade = true;
-            GameController.Instance.ShowUpgradeText();
             GameController.Instance.PlayerLevel();
         }
         expBar.fillAmount = exp / 100;
     }
 
-    void UpgradeMachineGun()
+    public void UpgradeMachineGun()
     {
         currMachineDmg += 0.5f;
         currMachineDelay -= 0.025f;
+        FinishUpgrade();
     }
 
-    void UpgradeShotGun()
+    public void UpgradeShotGun()
     {
         currShotgunDmg += 0.5f;
         currShotgunDelay -= 0.05f;
+        FinishUpgrade();
     }
 
-    void UpgradeBazooka()
+    public void UpgradeBazooka()
     {
         currBazookaDmg += 0.75f;
         currSplashDmg += 0.3f;
         currBazookaDelay -= 0.05f;
+        FinishUpgrade();
     }
 
     IEnumerator OnDamage()

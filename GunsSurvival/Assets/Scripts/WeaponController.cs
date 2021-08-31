@@ -30,7 +30,18 @@ public class WeaponController : MonoBehaviour
         machineGun = shootingWeapon[(int)kindOfWeapons.isMachine];
         bazooka = shootingWeapon[(int)kindOfWeapons.isBazooka];
 
-        if (GameController.Instance.canShoot && Input.GetKeyDown(KeyCode.Space) && !isSwitching)
+        /*if (GameController.Instance.canShoot && Input.GetKeyDown(KeyCode.Space) && !isSwitching)
+        {
+            SoundController.Instance.PlayReloadSound();
+            ++cnt;
+            if (cnt >= guns.Length) cnt = 0;
+            StartCoroutine(SwitchDelay(cnt));
+        }*/
+    }
+
+    public void Func()
+    {
+        if (GameController.Instance.canShoot && !isSwitching)
         {
             SoundController.Instance.PlayReloadSound();
             ++cnt;
@@ -44,6 +55,7 @@ public class WeaponController : MonoBehaviour
         for (int i = 0; i < guns.Length; i++)
         {
             guns[i].SetActive(true); //all guns are set active
+            shootingWeapon[i] = false; //all guns are not shootable
             Renderer render = guns[i].GetComponent<Renderer>();
             render.material.color = new Color(1, 1, 1, 0); //all guns are transparent in color.
         }
@@ -57,6 +69,7 @@ public class WeaponController : MonoBehaviour
         isSwitching = true;
         SwitchWeapon(idx);
         yield return new WaitForSeconds(changeDelay);
+        shootingWeapon[idx] = true;
         isSwitching = false;
     }
 
@@ -70,6 +83,5 @@ public class WeaponController : MonoBehaviour
             shootingWeapon[i] = false;
         }
         idxRender.material.color = new Color(1, 1, 1, 1);
-        shootingWeapon[idx] = true;
     }
 }

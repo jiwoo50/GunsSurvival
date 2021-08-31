@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ShotgunBullet : MonoBehaviour
 {
-    public static float shotVal = 0.0f;
+    public static float shotGunGaugeVal = 0.0f;
 
     public GameObject bulletSpawn;
     public GameObject bullet;
@@ -27,7 +27,7 @@ public class ShotgunBullet : MonoBehaviour
 
     void Start()
     {
-        shotVal = 0.0f;
+        shotGunGaugeVal = 0.0f;
     }
 
     void Update()
@@ -38,7 +38,7 @@ public class ShotgunBullet : MonoBehaviour
 
     void FireShotgun()
     {
-        if (GameController.Instance.canShoot && Input.GetMouseButton(0) && !PauseMenu.gamePaused)
+        if (GameController.Instance.canShoot && JoystickController.fireBullets && !PauseMenu.gamePaused)
         {
             if (WeaponController.shotGun)
             {
@@ -48,9 +48,9 @@ public class ShotgunBullet : MonoBehaviour
                     nextFire = Time.time + PlayerController.currShotgunDelay;
                     Shot();
                     isShotGauge = true;
-                    if (shotVal < 100)
+                    if (shotGunGaugeVal < 100)
                     {
-                        shotVal += 8.0f;
+                        shotGunGaugeVal += 8.0f;
                         shotgunOverheat = false;
                     }
 
@@ -63,7 +63,7 @@ public class ShotgunBullet : MonoBehaviour
         }
         else isShotGauge = false;
 
-        if (WeaponController.shotGun && Input.GetMouseButtonUp(0)) StartCoroutine(DecreaseGauge());
+        if (WeaponController.shotGun && !JoystickController.fireBullets) StartCoroutine(DecreaseGauge());
     }
     void Shot()
     {
@@ -88,17 +88,17 @@ public class ShotgunBullet : MonoBehaviour
     {
         if (GameController.Instance.canShoot && isShotGauge)
         {
-            if (shotVal >= 93) shotgunOverheat = true;
+            if (shotGunGaugeVal >= 93) shotgunOverheat = true;
         }
         else
         {
-            if (shotVal > 0 && gaugeDecrease)
+            if (shotGunGaugeVal > 0 && gaugeDecrease)
             {
-                shotVal -= WeaponController.gaugeSpeed * Time.deltaTime;
+                shotGunGaugeVal -= WeaponController.gaugeSpeed * Time.deltaTime;
                 shotgunOverheat = false;
             }
         }
-        shotgunGauge.fillAmount = shotVal / 100;
+        shotgunGauge.fillAmount = shotGunGaugeVal / 100;
     }
 
     IEnumerator DecreaseGauge() //delay occurs when stop shooting

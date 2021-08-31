@@ -12,9 +12,9 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (gamePaused) Time.timeScale = 0.0f;
-        else Time.timeScale = 1.0f;
-        if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused) Pause();
+        Time.timeScale = gamePaused ? 0.0f : 1.0f;
+        if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused && GameController.Instance.canShoot) Pause();
+
     }
 
     void Pause()
@@ -27,6 +27,13 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         StartCoroutine(CountDown());
+    }
+
+    public void Restart()
+    {
+        pauseMenu.SetActive(false);
+        gamePaused = false;
+        SceneManager.LoadScene("MainStage");
     }
 
     public void ToTitle()
