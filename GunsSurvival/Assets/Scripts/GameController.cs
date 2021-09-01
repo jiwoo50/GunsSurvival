@@ -45,6 +45,7 @@ public class GameController : MonoBehaviour
     public Text upgradeText;
     public Text maxLevelText;
     public Text levelText;
+    public Text overUpgradeText;
 
     public int rushDmg = 5;
     public int trackingDmg = 10;
@@ -123,6 +124,18 @@ public class GameController : MonoBehaviour
    {
         levelText.text = "Lv" + PlayerController.currLevel.ToString();
    }
+
+    public IEnumerator CannotUpgrade()
+    {
+        overUpgradeText.gameObject.SetActive(true);
+        overUpgradeText.color = new Color(overUpgradeText.color.r, overUpgradeText.color.g, overUpgradeText.color.b, 1);
+        while(overUpgradeText.color.a > 0.0f)
+        {
+            overUpgradeText.color = new Color(overUpgradeText.color.r, overUpgradeText.color.g, overUpgradeText.color.b, overUpgradeText.color.a - (Time.deltaTime/2.0f));
+            yield return null;
+        }
+        overUpgradeText.gameObject.SetActive(false);
+    }
 
     void Timer()
     {

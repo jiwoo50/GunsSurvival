@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MachinegunBullet : MonoBehaviour
 {
     public static float machineGunGaugeVal = 0.0f;
+    public static bool machineGaugeDecrease = true;
 
     public GameObject player;
     public GameObject bulletSpawn;
@@ -19,8 +20,7 @@ public class MachinegunBullet : MonoBehaviour
 
     bool machineOverheat = false;
     bool isMachineGauge = false;
-    bool machineGaugeDecrease = false;
-
+    
     void Start()
     {
         machineGunGaugeVal = 0.0f;
@@ -34,7 +34,7 @@ public class MachinegunBullet : MonoBehaviour
 
     void FireMachineGun()
     {
-        if (GameController.Instance.canShoot && JoystickController.fireBullets && !PauseMenu.gamePaused)
+        if (GameController.Instance.canShoot && !PauseMenu.gamePaused && RotateJoystickController.canFire)
         {
             if (WeaponController.machineGun)
             {
@@ -53,13 +53,12 @@ public class MachinegunBullet : MonoBehaviour
             }
         }
         else isMachineGauge = false;
-
-        if (WeaponController.machineGun && !JoystickController.fireBullets) StartCoroutine(MachineGaugeDecrease());
     }
 
     void Shot()
     {
         GameObject machineBullet = Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+        SoundController.Instance.PlayMachineGunSound();
         Rigidbody2D rb2d = machineBullet.GetComponent<Rigidbody2D>();
         rb2d.AddForce(this.gameObject.transform.up * bulletSpeed, ForceMode2D.Impulse);
 
@@ -81,11 +80,5 @@ public class MachinegunBullet : MonoBehaviour
             }
         }
         machineGauge.fillAmount = machineGunGaugeVal / 100;
-    }
-    IEnumerator MachineGaugeDecrease() //delay occurs when stop shooting
-    {
-        machineGaugeDecrease = false;
-        yield return new WaitForSeconds(2.0f); //delay : 2 seconds
-        machineGaugeDecrease = true;
     }
 }

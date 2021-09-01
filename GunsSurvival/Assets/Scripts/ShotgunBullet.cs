@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ShotgunBullet : MonoBehaviour
 {
     public static float shotGunGaugeVal = 0.0f;
+    public static bool ShotgunGaugeDecrease = false;
 
     public GameObject bulletSpawn;
     public GameObject bullet;
@@ -21,8 +22,7 @@ public class ShotgunBullet : MonoBehaviour
 
     bool shotgunOverheat = false;
     bool isShotGauge = false;
-    bool gaugeDecrease = false;
-
+    
     Vector3 bulletSpawn_ShiftToAngle = Vector3.zero;
 
     void Start()
@@ -38,7 +38,7 @@ public class ShotgunBullet : MonoBehaviour
 
     void FireShotgun()
     {
-        if (GameController.Instance.canShoot && JoystickController.fireBullets && !PauseMenu.gamePaused)
+        if (GameController.Instance.canShoot && !PauseMenu.gamePaused && RotateJoystickController.canFire)
         {
             if (WeaponController.shotGun)
             {
@@ -62,8 +62,6 @@ public class ShotgunBullet : MonoBehaviour
             }
         }
         else isShotGauge = false;
-
-        if (WeaponController.shotGun && !JoystickController.fireBullets) StartCoroutine(DecreaseGauge());
     }
     void Shot()
     {
@@ -92,19 +90,12 @@ public class ShotgunBullet : MonoBehaviour
         }
         else
         {
-            if (shotGunGaugeVal > 0 && gaugeDecrease)
+            if (shotGunGaugeVal > 0 && ShotgunGaugeDecrease)
             {
                 shotGunGaugeVal -= WeaponController.gaugeSpeed * Time.deltaTime;
                 shotgunOverheat = false;
             }
         }
         shotgunGauge.fillAmount = shotGunGaugeVal / 100;
-    }
-
-    IEnumerator DecreaseGauge() //delay occurs when stop shooting
-    {
-        gaugeDecrease = false;
-        yield return new WaitForSeconds(2.0f); //delay : 2 seconds
-        gaugeDecrease = true;
     }
 }

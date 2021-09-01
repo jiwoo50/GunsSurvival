@@ -8,6 +8,7 @@ public class SoundController : MonoBehaviour
     public AudioClip reload;
     public AudioClip fireBazooka;
     public AudioClip getItem;
+    public AudioClip fireMachineGun;
 
     AudioSource audioSource;
 
@@ -45,5 +46,10 @@ public class SoundController : MonoBehaviour
     public void PlayGetItemSound()
     {
         audioSource.PlayOneShot(getItem);
+    }
+
+    public void PlayMachineGunSound()
+    {
+        audioSource.PlayOneShot(fireMachineGun);
     }
 }

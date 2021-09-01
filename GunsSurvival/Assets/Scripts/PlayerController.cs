@@ -44,8 +44,10 @@ public class PlayerController : MonoBehaviour
 
     bool isInvincible = false;
     
-
     int maxLevel = 10;
+    int machineGunUpgradeCnt = 0;
+    int shotGunUpgradeCnt = 0;
+    int bazookaUpgradeCnt = 0; //max : 4
 
     Rigidbody2D rb2d;
     Renderer render;
@@ -91,16 +93,17 @@ public class PlayerController : MonoBehaviour
         ++currLevel;
     }
 
-    public void PlayerMove(Vector3 pos)
+    public void PlayerMove(Vector3 pos, float distance)
     {
-        Vector2 position = this.transform.position;
-        position.x += pos.x * moveSpeed * Time.deltaTime;
-        position.y += pos.y * moveSpeed * Time.deltaTime;
+        Vector3 position = rb2d.position;
+        position.x += pos.x * moveSpeed * distance * Time.deltaTime;
+        position.y += pos.y * moveSpeed * distance * Time.deltaTime;
+        position.z = -1.0f;
 
         position.x = Mathf.Clamp(position.x, boundary.xMin, boundary.xMax);
         position.y = Mathf.Clamp(position.y, boundary.yMin, boundary.yMax);
 
-        this.transform.position = position;
+        rb2d.MovePosition(position);
     }
 
     public void PlayerRotate(Vector2 pos)
@@ -190,7 +193,7 @@ public class PlayerController : MonoBehaviour
 
     void GetEXP()
     {
-        if (exp >= 1 && currLevel < maxLevel)
+        if (exp >= 100 && currLevel < maxLevel)
         {
             completeUpgrade = false;
             choosingUpgrade = true;
@@ -201,23 +204,41 @@ public class PlayerController : MonoBehaviour
 
     public void UpgradeMachineGun()
     {
+        if (machineGunUpgradeCnt >= 4)
+        {
+            GameController.Instance.StartCoroutine(GameController.Instance.CannotUpgrade());
+            return;
+        }
         currMachineDmg += 0.5f;
         currMachineDelay -= 0.025f;
+        ++machineGunUpgradeCnt;
         FinishUpgrade();
     }
 
     public void UpgradeShotGun()
     {
+        if (shotGunUpgradeCnt >= 4)
+        {
+            GameController.Instance.StartCoroutine(GameController.Instance.CannotUpgrade());
+            return;
+        }
         currShotgunDmg += 0.5f;
         currShotgunDelay -= 0.05f;
+        ++shotGunUpgradeCnt;
         FinishUpgrade();
     }
 
     public void UpgradeBazooka()
     {
+        if (bazookaUpgradeCnt >= 4)
+        {
+            GameController.Instance.StartCoroutine(GameController.Instance.CannotUpgrade());
+            return;
+        }
         currBazookaDmg += 0.75f;
         currSplashDmg += 0.3f;
         currBazookaDelay -= 0.05f;
+        ++bazookaUpgradeCnt;
         FinishUpgrade();
     }
 

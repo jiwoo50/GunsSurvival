@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BazookaBomb : MonoBehaviour
 {
     public static float bazookaGaugeVal = 0.0f;
+    public static bool bazookaGaugeDecrease = false;
 
     public GameObject player;
     public GameObject bulletSpawn;
@@ -19,7 +20,6 @@ public class BazookaBomb : MonoBehaviour
 
     bool bazookaOverheat = false;
     bool isBazookaeGauge = false;
-    bool bazookaGaugeDecrease = false;
 
     void Start()
     {
@@ -34,7 +34,7 @@ public class BazookaBomb : MonoBehaviour
     
     void FireBazooka()
     {
-        if (GameController.Instance.canShoot && JoystickController.fireBullets && !PauseMenu.gamePaused)
+        if (GameController.Instance.canShoot && !PauseMenu.gamePaused && RotateJoystickController.canFire)
         {
             if (WeaponController.bazooka)
             {
@@ -53,8 +53,6 @@ public class BazookaBomb : MonoBehaviour
             }
         }
         else isBazookaeGauge = false;
-
-        if (WeaponController.bazooka && !JoystickController.fireBullets) StartCoroutine(BazookaGaugeDecrease());
     }
 
     void Shot()
@@ -82,12 +80,5 @@ public class BazookaBomb : MonoBehaviour
             }
         }
         bazookaGauge.fillAmount = bazookaGaugeVal / 100;
-    }
-
-    IEnumerator BazookaGaugeDecrease() //delay occurs when stop shooting
-    {
-        bazookaGaugeDecrease = false;
-        yield return new WaitForSeconds(2.0f); //delay : 2 seconds
-        bazookaGaugeDecrease = true;
     }
 }
