@@ -7,16 +7,17 @@ public class WeaponController : MonoBehaviour
 {
     enum kindOfWeapons { isMachine = 0, isShot, isBazooka }
 
+    public static float gaugeSpeed = 8.0f;
     public static bool[] shootingWeapon = { false, false, false };
     public static bool shotGun = false;
     public static bool bazooka = false;
     public static bool machineGun = false;
-    public static float gaugeSpeed = 8.0f;
+    public static bool isSwitching = false;
+    public static int activeWeaponIdx = 0;
 
     public GameObject[] guns; //Machine Gun, Shot Gun, Bazooka 
-
     float changeDelay = 1.25f;
-    bool isSwitching = false;
+    
     int cnt = 0;
 
     void Start()
@@ -29,19 +30,12 @@ public class WeaponController : MonoBehaviour
         shotGun = shootingWeapon[(int)kindOfWeapons.isShot];
         machineGun = shootingWeapon[(int)kindOfWeapons.isMachine];
         bazooka = shootingWeapon[(int)kindOfWeapons.isBazooka];
-
-        /*if (GameController.Instance.canShoot && Input.GetKeyDown(KeyCode.Space) && !isSwitching)
-        {
-            SoundController.Instance.PlayReloadSound();
-            ++cnt;
-            if (cnt >= guns.Length) cnt = 0;
-            StartCoroutine(SwitchDelay(cnt));
-        }*/
+        activeWeaponIdx = GetActiveWeaponIndex();
     }
 
-    public void Func()
+    public void SwitchWeapon()
     {
-        if (GameController.Instance.canShoot && !isSwitching)
+        if (GameController.Instance.canShoot && !isSwitching && !PlayerController.isInvincible)
         {
             SoundController.Instance.PlayReloadSound();
             ++cnt;
@@ -67,13 +61,13 @@ public class WeaponController : MonoBehaviour
     IEnumerator SwitchDelay(int idx)
     {
         isSwitching = true;
-        SwitchWeapon(idx);
-        yield return new WaitForSeconds(changeDelay);
+        SwitchActiveWeapon(idx);
         shootingWeapon[idx] = true;
+        yield return new WaitForSeconds(changeDelay);
         isSwitching = false;
     }
 
-    void SwitchWeapon(int idx)
+    void SwitchActiveWeapon(int idx)
     {
         Renderer idxRender = guns[idx].GetComponent<Renderer>();
         for (int i = 0; i < guns.Length; i++)
@@ -83,5 +77,15 @@ public class WeaponController : MonoBehaviour
             shootingWeapon[i] = false;
         }
         idxRender.material.color = new Color(1, 1, 1, 1);
+    }
+
+    int GetActiveWeaponIndex()
+    {
+        int activeWeapon = 0;
+        for(int i = 0; i < shootingWeapon.Length; i++)
+        {
+            if (shootingWeapon[i]) activeWeapon = i;
+        }
+        return activeWeapon;
     }
 }

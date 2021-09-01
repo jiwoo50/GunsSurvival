@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public static bool achieveMaxLevel = false;
     public static bool choosingUpgrade = false;
     public static bool completeUpgrade = false;
+    public static bool isInvincible = false;
     public static int currLevel = 0;
     public static int currHealth;
     public static int maxHealth = 30;
@@ -42,24 +43,24 @@ public class PlayerController : MonoBehaviour
     float splashDmg = 4.0f;
     float bazookaDelay = 1.5f;
 
-    bool isInvincible = false;
-    
     int maxLevel = 10;
     int machineGunUpgradeCnt = 0;
     int shotGunUpgradeCnt = 0;
     int bazookaUpgradeCnt = 0; //max : 4
 
     Rigidbody2D rb2d;
-    Renderer render;
+    Renderer playerRenderer;
+    Renderer weaponRenderer;
+    GameObject activeWeapon;
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        render = this.gameObject.GetComponent<Renderer>();
+        playerRenderer = this.gameObject.GetComponent<Renderer>();
         Initialize();
 
-        GameController.Instance.ResetScore();
-        GameController.Instance.InitializeGame();
+        GameController.Instance.ResetTimer();
+        GameController.Instance.SetInactiveMaxLevelText();
     }
 
     void Update()
@@ -69,20 +70,22 @@ public class PlayerController : MonoBehaviour
             expBar.fillAmount = 1.0f;
             achieveMaxLevel = true;
         }
-
+        activeWeapon = this.transform.GetChild(0).GetChild(WeaponController.activeWeaponIdx).gameObject;
         if (!achieveMaxLevel && !choosingUpgrade) GetEXP();
     }
 
     void Initialize()
     {
+        exp = 0;
+        currLevel = 0;
         currHealth = maxHealth;
-        currMachineDmg = machineDmg;
-        currMachineDelay = machineDelay;
         currShotgunDmg = shotDmg;
-        currShotgunDelay = shotDelay;
-        currBazookaDmg = bazookaDmg;
-        currBazookaDelay = bazookaDelay;
         currSplashDmg = splashDmg;
+        currMachineDmg = machineDmg;
+        currBazookaDmg = bazookaDmg;
+        currShotgunDelay = shotDelay;
+        currMachineDelay = machineDelay;
+        currBazookaDelay = bazookaDelay;
     }
 
     void FinishUpgrade()
@@ -209,8 +212,8 @@ public class PlayerController : MonoBehaviour
             GameController.Instance.StartCoroutine(GameController.Instance.CannotUpgrade());
             return;
         }
-        currMachineDmg += 0.5f;
-        currMachineDelay -= 0.025f;
+        currMachineDmg += 1.0f;
+        currMachineDelay -= 0.05f;
         ++machineGunUpgradeCnt;
         FinishUpgrade();
     }
@@ -222,8 +225,8 @@ public class PlayerController : MonoBehaviour
             GameController.Instance.StartCoroutine(GameController.Instance.CannotUpgrade());
             return;
         }
-        currShotgunDmg += 0.5f;
-        currShotgunDelay -= 0.05f;
+        currShotgunDmg += 1.25f;
+        currShotgunDelay -= 0.08f;
         ++shotGunUpgradeCnt;
         FinishUpgrade();
     }
@@ -235,9 +238,9 @@ public class PlayerController : MonoBehaviour
             GameController.Instance.StartCoroutine(GameController.Instance.CannotUpgrade());
             return;
         }
-        currBazookaDmg += 0.75f;
-        currSplashDmg += 0.3f;
-        currBazookaDelay -= 0.05f;
+        currBazookaDmg += 1.5f;
+        currSplashDmg += 0.5f;
+        currBazookaDelay -= 0.1f;
         ++bazookaUpgradeCnt;
         FinishUpgrade();
     }
@@ -246,11 +249,14 @@ public class PlayerController : MonoBehaviour
     {
         int cnt = 0;
         isInvincible = true;
+        weaponRenderer = activeWeapon.GetComponent<Renderer>();
         while (cnt < 4)
         {
-            render.material.color = new Color(255, 255, 255, 0);
+            playerRenderer.material.color = new Color(1, 1, 1, 0);
+            weaponRenderer.material.color = new Color(1, 1, 1, 0);
             yield return new WaitForSeconds(0.25f);
-            render.material.color = new Color(1, 1, 1, 1);
+            playerRenderer.material.color = new Color(1, 1, 1, 1);
+            weaponRenderer.material.color = new Color(1, 1, 1, 1);
             yield return new WaitForSeconds(0.25f);
             ++cnt;
         }

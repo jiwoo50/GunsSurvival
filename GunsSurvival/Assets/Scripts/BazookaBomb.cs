@@ -36,7 +36,7 @@ public class BazookaBomb : MonoBehaviour
     {
         if (GameController.Instance.canShoot && !PauseMenu.gamePaused && RotateJoystickController.canFire)
         {
-            if (WeaponController.bazooka)
+            if (WeaponController.bazooka && !WeaponController.isSwitching)
             {
                 StopAllCoroutines();
                 if (Time.time > nextFire && !bazookaOverheat)

@@ -40,7 +40,7 @@ public class ShotgunBullet : MonoBehaviour
     {
         if (GameController.Instance.canShoot && !PauseMenu.gamePaused && RotateJoystickController.canFire)
         {
-            if (WeaponController.shotGun)
+            if (WeaponController.shotGun && !WeaponController.isSwitching)
             {
                 StopAllCoroutines();
                 if (Time.time > nextFire && !shotgunOverheat)

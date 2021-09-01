@@ -49,7 +49,9 @@ public class MoveJoystickController : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void ControlPlayer()
     {
-        if (!PauseMenu.gamePaused && GameController.Instance.canShoot) player.PlayerMove(leverPos, dist); //player moves
-        
+        if (!PauseMenu.gamePaused && GameController.Instance.canShoot)
+        {
+            if(player) player.PlayerMove(leverPos, dist); //player moves
+        }
     }
 }

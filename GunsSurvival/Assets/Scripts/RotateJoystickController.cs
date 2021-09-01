@@ -54,7 +54,7 @@ public class RotateJoystickController : MonoBehaviour, IPointerDownHandler, IPoi
         if (!PauseMenu.gamePaused && GameController.Instance.canShoot)
         {
             canFire = true;
-            player.PlayerRotate(leverPos); //player rotates
+            if (player) player.PlayerRotate(leverPos); //player rotates
         }
     }
 

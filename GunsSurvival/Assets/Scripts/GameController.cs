@@ -73,7 +73,6 @@ public class GameController : MonoBehaviour
         if (PlayerController.choosingUpgrade) upgradeText.gameObject.SetActive(true);
         if (PlayerController.completeUpgrade) upgradeText.gameObject.SetActive(false);
         if (PlayerController.achieveMaxLevel) ShowMaxLevelText();
-        if (reinforceCnt >= 5) CancelInvoke("ReinforceEnemy"); //repeat 5 times
         if (startSpawn && !gameOver) Timer();
         PlayerLevel();
     }
@@ -95,7 +94,7 @@ public class GameController : MonoBehaviour
     {
         gameoverText.gameObject.SetActive(true);
         gameOver = true;
-        InitializeGame();
+        SetInactiveMaxLevelText();
     }
 
     public void PlayerHealth()
@@ -103,10 +102,8 @@ public class GameController : MonoBehaviour
         healthText.text = PlayerController.currHealth.ToString() + "/" + PlayerController.maxHealth.ToString(); 
     }
 
-    public void InitializeGame()
+    public void SetInactiveMaxLevelText()
     {
-        PlayerController.exp = 0;
-        PlayerController.currLevel = 0;
         if (PlayerController.achieveMaxLevel)
         {
             PlayerController.achieveMaxLevel = false;
@@ -114,7 +111,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ResetScore()
+    public void ResetTimer()
     {
         min = 0;
         sec = 0.0f;
@@ -145,7 +142,7 @@ public class GameController : MonoBehaviour
         {
             sec = 0;
             ++min;
-            ReinforceEnemy();
+            if (reinforceCnt < 5) ReinforceEnemy();
         }
     }
 

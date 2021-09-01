@@ -36,7 +36,7 @@ public class MachinegunBullet : MonoBehaviour
     {
         if (GameController.Instance.canShoot && !PauseMenu.gamePaused && RotateJoystickController.canFire)
         {
-            if (WeaponController.machineGun)
+            if (WeaponController.machineGun && !WeaponController.isSwitching)
             {
                 StopAllCoroutines();
                 if (Time.time > nextFire && !machineOverheat)
@@ -46,7 +46,7 @@ public class MachinegunBullet : MonoBehaviour
                     isMachineGauge = true;
                     if (machineGunGaugeVal < 100)
                     {
-                        machineGunGaugeVal += 2.0f;
+                        machineGunGaugeVal += 4.0f;
                         machineOverheat = false;
                     }
                 }

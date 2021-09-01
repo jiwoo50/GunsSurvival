@@ -44,8 +44,6 @@ public class PrintScore : MonoBehaviour
         int third_min = Convert.ToInt32(PlayerPrefs.GetString("ThirdScore").Substring(0, 2));
         int third_sec = Convert.ToInt32(PlayerPrefs.GetString("ThirdScore").Substring(3, 2));
 
-        if (score_min >= best_min && score_sec >= best_sec) StartCoroutine(NewRecord());
-
         if (score_min <= best_min && score_sec < best_sec)
         {
             if (score_min <= second_min && score_sec < second_sec)
@@ -59,6 +57,7 @@ public class PrintScore : MonoBehaviour
             return;
         }
         if (score_min == best_min && score_sec == best_sec) return;
+        StartCoroutine(NewRecord());
         PlayerPrefs.SetString("ThirdScore", PlayerPrefs.GetString("SecondScore"));
         PlayerPrefs.SetString("SecondScore", PlayerPrefs.GetString("BestScore"));
         PlayerPrefs.SetString("BestScore", score);
