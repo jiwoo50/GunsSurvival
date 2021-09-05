@@ -45,8 +45,8 @@ public class EnemyHP : MonoBehaviour
 
         if (splash)
         {
-            Collider2D[] hitObj = Physics2D.OverlapCircleAll(transform.position, splashRadius);
-            foreach (Collider2D hit in hitObj)
+            Collider2D[] hitObj = Physics2D.OverlapCircleAll(this.transform.position, splashRadius);
+            foreach (var hit in hitObj)
             {
                 if (hit.gameObject.CompareTag("Rush") || hit.gameObject.CompareTag("Tracking") || hit.gameObject.CompareTag("Divisive"))
                 {
@@ -86,7 +86,7 @@ public class EnemyHP : MonoBehaviour
     float ChooseItem()
     {
         float total = 0;
-        foreach (float elem in percentage) total += elem;
+        foreach (float elem in percentage) total += elem; //total = 100
         
         float randomPoint = Random.value * total; //0~100
         for (int i = 0; i < percentage.Length; i++)

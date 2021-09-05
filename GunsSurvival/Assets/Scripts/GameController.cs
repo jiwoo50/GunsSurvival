@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     public static float currPentagonHP = 25.0f;
     public static float currTrackingSpeed = 2.0f;
     public static float currRushSpeed = 2.0f;
+    public static float currSpawnDelay = 1.5f;
     public static int currRushDmg = 5;
     public static int currTrackingDmg = 10;
     public static int currDivisiveDmg = 15;
@@ -33,6 +34,7 @@ public class GameController : MonoBehaviour
     public float pentagonHP = 25.0f;
     public float rushSpeed = 2.0f;
     public float trackingSpeed = 2.0f;
+    public float spawnDelay = 1.5f;
 
     public bool gameOver = false;
     public bool startSpawn = false;
@@ -79,6 +81,7 @@ public class GameController : MonoBehaviour
 
     void InitializeEnemy()
     {
+        currSpawnDelay = spawnDelay;
         currTriangleHP = triangleHP;
         currRectangleHP = rectangleHP;
         currPentagonHP = pentagonHP;
@@ -182,6 +185,8 @@ public class GameController : MonoBehaviour
         currTrackingSpeed += 0.5f;
         currRushSpeed += 0.5f;
 
+        currSpawnDelay -= 0.1f;
+        
         ++maxEnemy;
     }
 }

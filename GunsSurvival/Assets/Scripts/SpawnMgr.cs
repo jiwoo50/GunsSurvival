@@ -7,7 +7,6 @@ public class SpawnMgr : MonoBehaviour
     public GameObject[] Enemies;
     public GameObject[] SpawnAreas;
 
-    public float spawnDelay = 1.5f;
     public float startWait = 3.0f;
 
     int numberOfEnemies = 0;
@@ -44,9 +43,8 @@ public class SpawnMgr : MonoBehaviour
         float range_y = boxCollider.bounds.size.y;
         range_x = Random.Range((range_x / 2) * (-1), range_x / 2);
         range_y = Random.Range((range_y / 2) * (-1), range_y / 2);
-        Vector3 randomPos = new Vector3(range_x, range_y, 0.0f);
+        Vector3 randomPos = new Vector3(range_x, range_y, -1.0f);
         Vector3 spawnPos = originPos + randomPos;
-        spawnPos.z = -1.0f;
 
         return spawnPos;
     }
@@ -62,7 +60,7 @@ public class SpawnMgr : MonoBehaviour
                 int spawnArea_idx = Random.Range(0, SpawnAreas.Length);
                 int enemy_idx = Random.Range(0, Enemies.Length);
                 Instantiate(Enemies[enemy_idx], GetRandomPos(spawnArea_idx), Quaternion.identity);
-                yield return new WaitForSeconds(spawnDelay);
+                yield return new WaitForSeconds(GameController.currSpawnDelay);
             }
             else yield return null;
         }

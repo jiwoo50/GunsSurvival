@@ -65,12 +65,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        activeWeapon = this.transform.GetChild(0).GetChild(WeaponController.activeWeaponIdx).gameObject;
         if (currLevel == maxLevel)
         {
             expBar.fillAmount = 1.0f;
             achieveMaxLevel = true;
         }
-        activeWeapon = this.transform.GetChild(0).GetChild(WeaponController.activeWeaponIdx).gameObject;
         if (!achieveMaxLevel && !choosingUpgrade) GetEXP();
     }
 
@@ -117,18 +117,9 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Rush"))
-        {
-            ChangeHealth(-GameController.currRushDmg);
-        }
-        if (collision.gameObject.CompareTag("Tracking"))
-        {
-            ChangeHealth(-GameController.currTrackingDmg);
-        }
-        if (collision.gameObject.CompareTag("Divisive"))
-        {
-            ChangeHealth(-GameController.currDivisiveDmg);
-        }
+        if (collision.gameObject.CompareTag("Rush")) ChangeHealth(-GameController.currRushDmg);       
+        if (collision.gameObject.CompareTag("Tracking")) ChangeHealth(-GameController.currTrackingDmg);
+        if (collision.gameObject.CompareTag("Divisive")) ChangeHealth(-GameController.currDivisiveDmg);
         else return;
     }
 
@@ -215,6 +206,7 @@ public class PlayerController : MonoBehaviour
         currMachineDmg += 1.0f;
         currMachineDelay -= 0.05f;
         ++machineGunUpgradeCnt;
+        SoundController.Instance.PlayUpgradeSound();
         FinishUpgrade();
     }
 
@@ -228,6 +220,7 @@ public class PlayerController : MonoBehaviour
         currShotgunDmg += 1.25f;
         currShotgunDelay -= 0.08f;
         ++shotGunUpgradeCnt;
+        SoundController.Instance.PlayUpgradeSound();
         FinishUpgrade();
     }
 
@@ -242,6 +235,7 @@ public class PlayerController : MonoBehaviour
         currSplashDmg += 0.5f;
         currBazookaDelay -= 0.1f;
         ++bazookaUpgradeCnt;
+        SoundController.Instance.PlayUpgradeSound();
         FinishUpgrade();
     }
 

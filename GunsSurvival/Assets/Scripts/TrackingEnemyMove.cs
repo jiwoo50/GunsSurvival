@@ -22,14 +22,8 @@ public class TrackingEnemyMove : MonoBehaviour
             Tracking();
             searchTime = 0.5f;
         }
-        if (searchTime > 0.0f)
-        {
-            searchTime -= Time.deltaTime;
-        }
-        if (Mathf.Abs(transform.position.y) >= 4.89f || Mathf.Abs(transform.position.x) >= 2.95f)
-        {
-            Tracking();
-        }
+        if (searchTime > 0.0f) searchTime -= Time.deltaTime;
+        if (Mathf.Abs(transform.position.y) >= 4.89f || Mathf.Abs(transform.position.x) >= 2.95f) Tracking();
     }
 
     void Tracking()

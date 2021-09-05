@@ -20,9 +20,9 @@ public class PrintScore : MonoBehaviour
 
     void Initialize()
     {
-        if (PlayerPrefs.GetString("BestScore").Length == 0) PlayerPrefs.SetString("BestScore", "00:00");
-        if (PlayerPrefs.GetString("SecondScore").Length == 0) PlayerPrefs.SetString("SecondScore", "00:00");
-        if (PlayerPrefs.GetString("ThirdScore").Length == 0) PlayerPrefs.SetString("ThirdScore", "00:00");
+        if (!PlayerPrefs.HasKey("BestScore")) PlayerPrefs.SetString("BestScore", "00:00");
+        if (!PlayerPrefs.HasKey("SecondScore")) PlayerPrefs.SetString("SecondScore", "00:00");
+        if (!PlayerPrefs.HasKey("ThirdScore")) PlayerPrefs.SetString("ThirdScore", "00:00");
     }
 
     void Start()
@@ -44,6 +44,7 @@ public class PrintScore : MonoBehaviour
         int third_min = Convert.ToInt32(PlayerPrefs.GetString("ThirdScore").Substring(0, 2));
         int third_sec = Convert.ToInt32(PlayerPrefs.GetString("ThirdScore").Substring(3, 2));
 
+        if (score_min == best_min && score_sec == best_sec) return;
         if (score_min <= best_min && score_sec < best_sec)
         {
             if (score_min <= second_min && score_sec < second_sec)
@@ -56,7 +57,6 @@ public class PrintScore : MonoBehaviour
             PlayerPrefs.SetString("SecondScore", score);
             return;
         }
-        if (score_min == best_min && score_sec == best_sec) return;
         StartCoroutine(NewRecord());
         PlayerPrefs.SetString("ThirdScore", PlayerPrefs.GetString("SecondScore"));
         PlayerPrefs.SetString("SecondScore", PlayerPrefs.GetString("BestScore"));
