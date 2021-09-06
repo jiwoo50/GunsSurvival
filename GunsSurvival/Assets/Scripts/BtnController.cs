@@ -16,6 +16,11 @@ public class BtnController : MonoBehaviour
         SceneManager.LoadScene("MainStage");
     }
 
+    public void LoadGameOverScene()
+    {
+        SceneManager.LoadScene("GameOverScene");
+    }
+
     public void QuitGame()
     {
 #if UNITY_EDITOR

@@ -67,11 +67,11 @@ public class GameController : MonoBehaviour
         StartCoroutine(ShowReadyText());
         PlayerHealth();
         InitializeEnemy();
+        if (gameOver) gameOver = false;
     }
 
     void Update()
     {
-        if(gameOver && Input.GetKeyDown(KeyCode.Space)) SceneManager.LoadScene("GameOverScene");
         if (PlayerController.choosingUpgrade) upgradeText.gameObject.SetActive(true);
         if (PlayerController.completeUpgrade) upgradeText.gameObject.SetActive(false);
         if (PlayerController.achieveMaxLevel) ShowMaxLevelText();

@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         playerRenderer = this.gameObject.GetComponent<Renderer>();
         Initialize();
-
         GameController.Instance.ResetTimer();
         GameController.Instance.SetInactiveMaxLevelText();
     }
@@ -78,7 +77,11 @@ public class PlayerController : MonoBehaviour
     {
         exp = 0;
         currLevel = 0;
+        isInvincible = false;
         currHealth = maxHealth;
+        achieveMaxLevel = false;
+        choosingUpgrade = false;
+        completeUpgrade = false;
         currShotgunDmg = shotDmg;
         currSplashDmg = splashDmg;
         currMachineDmg = machineDmg;
@@ -118,7 +121,7 @@ public class PlayerController : MonoBehaviour
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Rush")) ChangeHealth(-GameController.currRushDmg);       
-        if (collision.gameObject.CompareTag("Tracking")) ChangeHealth(-GameController.currTrackingDmg);
+        if (collision.gameObject.CompareTag("Tracking")) ChangeHealth(-GameController.currTrackingDmg);       
         if (collision.gameObject.CompareTag("Divisive")) ChangeHealth(-GameController.currDivisiveDmg);
         else return;
     }
